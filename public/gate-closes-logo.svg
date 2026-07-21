@@ -1,0 +1,18 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<foreignObject x="-12" y="-12" width="88" height="88"><div xmlns="http://www.w3.org/1999/xhtml" style="backdrop-filter:blur(6px);clip-path:url(#bgblur_0_515_2929_clip_path);height:100%;width:100%"></div></foreignObject><g data-figma-bg-blur-radius="12">
+<mask id="path-1-inside-1_515_2929" fill="white">
+<path d="M0 32C0 14.3269 14.3269 0 32 0V0C49.6731 0 64 14.3269 64 32V32C64 49.6731 49.6731 64 32 64V64C14.3269 64 0 49.6731 0 32V32Z"/>
+</mask>
+<path d="M0 32C0 14.3269 14.3269 0 32 0V0C49.6731 0 64 14.3269 64 32V32C64 49.6731 49.6731 64 32 64V64C14.3269 64 0 49.6731 0 32V32Z" fill="black"/>
+<path d="M0 32M64 32M64 32M0 32M32 0M64 32M32 64M0 32M32 64V63C14.8792 63 1 49.1208 1 32H0H-1C-1 50.2254 13.7746 65 32 65V64ZM64 32H63C63 49.1208 49.1208 63 32 63V64V65C50.2254 65 65 50.2254 65 32H64ZM32 0V1C49.1208 1 63 14.8792 63 32H64H65C65 13.7746 50.2254 -1 32 -1V0ZM32 0V-1C13.7746 -1 -1 13.7746 -1 32H0H1C1 14.8792 14.8792 1 32 1V0Z" fill="#BBE40A" fill-opacity="0.2" mask="url(#path-1-inside-1_515_2929)"/>
+<g clip-path="url(#clip1_515_2929)">
+<path d="M15.5 54.97V50.87H51.5V54.97H15.5ZM19 44.72L11.5 31.9075L16.3 30.575L21.9 35.3925L28.9 33.4963L18.55 19.3513L24.35 17.7625L39.3 30.6263L47.8 28.2688C48.8667 27.9613 49.875 28.0894 50.825 28.6531C51.775 29.2169 52.4 30.0454 52.7 31.1388C53 32.2321 52.875 33.2656 52.325 34.2394C51.775 35.2131 50.9667 35.8538 49.9 36.1613L19 44.72Z" fill="#BBE40A"/>
+</g>
+</g>
+<defs>
+<clipPath id="bgblur_0_515_2929_clip_path" transform="translate(12 12)"><path d="M0 32C0 14.3269 14.3269 0 32 0V0C49.6731 0 64 14.3269 64 32V32C64 49.6731 49.6731 64 32 64V64C14.3269 64 0 49.6731 0 32V32Z"/>
+</clipPath><clipPath id="clip1_515_2929">
+<rect width="48" height="41" fill="white" transform="matrix(1 0 0 -1 9.5 48)"/>
+</clipPath>
+</defs>
+</svg>

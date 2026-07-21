@@ -49,9 +49,15 @@ export function Navbar() {
       <ScrollProgress />
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#home" className="flex items-center gap-2.5">
+          <img
+            src="/gate-closes-logo.svg"
+            alt="GateCloses Logo"
+            width={40}
+            height={40}
+          />
           <span
             className={cn(
-              "text-lg font-bold tracking-tight transition-colors duration-300 text-primary",
+              "text-lg font-bold tracking-tight transition-colors duration-300 text-theme",
             )}
           >
             GateCloses
@@ -95,10 +101,8 @@ export function Navbar() {
                   variant="ghost"
                   size="icon-lg"
                   className={cn(
-                    "transition-colors duration-300",
-                    scrolled
-                      ? "text-zinc-900 hover:bg-zinc-100"
-                      : "text-white hover:bg-white/10"
+                    "transition-colors duration-300 bg-primary-foreground",
+
                   )}
                 />
               }
