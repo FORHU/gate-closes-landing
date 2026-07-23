@@ -119,6 +119,15 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    #eef9c8 0%,
+    #ffffff 50%,
+    #d6ef72 100%
+  );
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

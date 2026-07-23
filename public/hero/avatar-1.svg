@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64" fill="none" role="img" aria-label="GateCloses user">
+  <circle cx="32" cy="32" r="32" fill="#EEF9C8"/>
+  <circle cx="32" cy="19" r="9" fill="#C5E84D"/>
+  <path
+    d="M11 35.5C11 33 19 31 32 31C45 31 53 33 53 35.5V46.5C53 49 45 51 32 51C19 51 11 49 11 46.5V35.5Z"
+    fill="#9BCB2E"
+  />
+</svg>
