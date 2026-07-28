@@ -1,6 +1,6 @@
 # GateCloses Landing Page
 
-Marketing landing page for the GateCloses app (community gate/access management). This context covers the page's visual vocabulary — the terms used for hero-section layout and components.
+Marketing landing page for the GateCloses app (community gate/access management). This context covers the page's visual vocabulary — the terms used for hero-section and features-section layout and components.
 
 ## Language
 
@@ -20,9 +20,28 @@ _Avoid_: Terminal card, code snippet, floating SVG
 The shared animation wrapper (`FloatingWrapper` in `hero-showcase.tsx`) that applies a bobbing `y` animation (disabled under `prefers-reduced-motion`) to any child. Used by the Terminal Echo cards.
 _Avoid_: Float animation, bob wrapper
 
+**Feature Map**:
+The visual composition area in the Features section — distinct from the Hero Showcase in that its defining trait is Feature Markers landing on it like pins dropped onto a map, anchored around a centered element.
+_Avoid_: Feature Showcase, Features visual, Features graphic
+
+**Anchor Phone**:
+The centered phone in the Feature Map that the four Feature Markers land around — a Phone Mockup (same bezel frame component as the Hero Showcase) displaying `intro-phone.svg` as its screenshot. "Anchor Phone" names its *role* in the Feature Map (fixed center point everything positions relative to), not a different frame component.
+_Avoid_: Feature Phone, intro phone
+
+**Feature Marker**:
+One of four map-pin-shaped SVGs (`terminal-echo.svg`, `parallel-soul.svg`, `destination-thread.svg`, `baton-touch.svg` in `public/features/`) that land around the Anchor Phone in the Feature Map, one per corner. Each represents one product feature and carries that feature's title — Terminal Echo, Parallel Soul, Destination Thread, and Baton Touch respectively — making it informational, not decorative.
+_Avoid_: Feature Pin, Feature badge, marker icon
+
+_Flagged ambiguity_: `public/features/terminal-echo.svg` (a Feature Marker, map-pin shaped) shares a filename root with the Hero Showcase's `terminal-echo-{1..4}.svg` (a Terminal Echo card, dark rounded-rect terminal mockup) — these are unrelated assets in different sections. Don't conflate them.
+
 ## Example dialogue
 
 **Dev**: "I want to add a fifth image to the hero."
 **Domain expert**: "Is it a Phone Mockup showing another app screen, or a Terminal Echo card for decoration?"
 **Dev**: "Decoration — just another dark code-snippet visual."
 **Domain expert**: "Then it's a Terminal Echo card. Give it a `FloatingWrapper` with a staggered delay, keep it `alt=""`, and place it behind the Phone Mockups in z-index like the other four."
+
+**Dev**: "I'm adding the phone to the features section — is that just another Phone Mockup?"
+**Domain expert**: "Same `PhoneMockup` component and bezel, yes — but call it the Anchor Phone when talking about the Feature Map, since that name captures its role there: it's the fixed center point the Feature Markers land around."
+**Dev**: "And the four pin icons that land around it — are those Terminal Echo cards, like the Hero's floating decoration?"
+**Domain expert**: "Different thing, despite one sharing a filename. Those are Feature Markers — each one is informational, not decorative: it carries a real feature title and pops in with a landing-pin bounce, not a bob."
