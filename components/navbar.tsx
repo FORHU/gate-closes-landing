@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, useCallback } from "react"
+import { useState, useEffect} from "react"
+import { Download } from "lucide-react"
 import { ScrollProgress } from "./scroll-progress"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -23,19 +24,21 @@ const NAV_LINKS = [
 const SCROLL_THRESHOLD = 50
 
 export function Navbar() {
-  const [scrolled, setScrolled] = useState(() => {
-    if (typeof window === "undefined") return false
-    return window.scrollY > SCROLL_THRESHOLD
-  })
+  const [scrolled, setScrolled] = useState(false);
 
-  const handleScroll = useCallback(() => {
-    setScrolled(window.scrollY > SCROLL_THRESHOLD)
-  }, [])
+useEffect(() => {
+  const updateScroll = () => {
+    setScrolled(window.scrollY > SCROLL_THRESHOLD);
+  };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [handleScroll])
+  updateScroll();
+
+  window.addEventListener("scroll", updateScroll, {
+    passive: true,
+  });
+
+  return () => window.removeEventListener("scroll", updateScroll);
+}, []);
 
   return (
     <header
@@ -83,12 +86,14 @@ export function Navbar() {
 
         <div className="hidden md:block">
           <Button
+            nativeButton={false}
             size="lg"
-            render={<a href="#" />}
+            render={(props) => <a href="#" {...props} />} 
             className={cn(
-              "rounded-full px-5 text-sm font-semibold transition-all duration-300 text-secondary bg-secondary-foreground",
+              "rounded-xl px-3 py-5 text-sm font-semibold transition-all duration-300 text-secondary bg-secondary-foreground",
             )}
           >
+            <Download className="size-4" />
             Download APK
           </Button>
         </div>
@@ -101,8 +106,7 @@ export function Navbar() {
                   variant="ghost"
                   size="icon-lg"
                   className={cn(
-                    "transition-colors duration-300 bg-primary-foreground",
-
+                    "transition-colors duration-300 ",
                   )}
                 />
               }
@@ -122,11 +126,11 @@ export function Navbar() {
                     {link.label}
                   </a>
                 ))}
-                <div className="my-4 h-px bg-zinc-200" />
                 <Button
+                  nativeButton={false}
                   size="lg"
-                  render={<a href="#" />}
-                  className="w-full rounded-full bg-zinc-900 px-5 text-sm font-semibold text-white hover:bg-zinc-800"
+                  render={(props) => <a href="#" {...props} />} 
+                  className="w-full rounded-xl px-2 py-5 bg-zinc-900 text-sm font-semibold text-white hover:bg-zinc-800"
                 >
                   Download APK
                 </Button>
