@@ -34,6 +34,11 @@ const phoneVariants: Variants = {
   },
 }
 
+// When each marker's landing bounce (spring) starts. The pulse rings reuse
+// this plus a settle buffer so they only start once the marker has landed.
+const MARKER_LANDING_DELAY = (index: number) => 0.5 + index * 0.15
+const MARKER_LANDING_SETTLE = 0.4
+
 const markerVariants: Variants = {
   hidden: { y: 24, opacity: 0, scale: 0 },
   visible: (index: number) => ({
@@ -44,9 +49,49 @@ const markerVariants: Variants = {
       type: "spring",
       stiffness: 580,
       damping: 14,
-      delay: 0.5 + index * 0.15,
+      delay: MARKER_LANDING_DELAY(index),
     },
   }),
+}
+
+// 4 rings per marker, evenly staggered across one cycle (`pulseAnimate` in
+// globals.css: scale 1→1.8, opacity 0.6→0, on loop) so multiple rings are
+// always visible at different stages at once — a continuous ripple instead
+// of a single ring with a visible gap between pulses. Every pin SVG shares
+// the same head geometry (centered at 30.5/61 horizontally, 29.5/71
+// vertically in a 61x71 viewBox), so one fixed position/size works for all
+// four markers, matching the pin's own outer colored edge (51/71 of height).
+const PULSE_RING_COUNT = 4
+const PULSE_DURATION = 2.4
+const PULSE_STAGGER = PULSE_DURATION / PULSE_RING_COUNT
+
+function MarkerPulse({ color, index }: { color: string; index: number }) {
+  const shouldReduceMotion = useReducedMotion()
+
+  if (shouldReduceMotion) {
+    return null
+  }
+
+  const startDelay = MARKER_LANDING_DELAY(index) + MARKER_LANDING_SETTLE
+
+  return (
+    <>
+      {Array.from({ length: PULSE_RING_COUNT }, (_, ring) => (
+        <span
+          key={ring}
+          className="absolute left-1/2 top-[41.5%] z-0 aspect-square h-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{
+            backgroundColor: color,
+            animationName: "pulseAnimate",
+            animationDuration: `${PULSE_DURATION}s`,
+            animationTimingFunction: "linear",
+            animationIterationCount: "infinite",
+            animationDelay: `${startDelay + ring * PULSE_STAGGER}s`,
+          }}
+        />
+      ))}
+    </>
+  )
 }
 
 function markerClassName(marker: Marker) {
@@ -59,18 +104,21 @@ function markerClassName(marker: Marker) {
   )
 }
 
-function MarkerBody({ marker }: { marker: Marker }) {
+function MarkerBody({ marker, index }: { marker: Marker; index: number }) {
   const side = markerSide[marker.position]
 
   return (
     <>
-      <Image
-        src={marker.src}
-        alt=""
-        width={61}
-        height={71}
-        className="h-24 w-auto shrink-0 drop-shadow-sm md:h-28 lg:h-32"
-      />
+      <div className="relative shrink-0">
+        <MarkerPulse color={marker.color} index={index} />
+        <Image
+          src={marker.src}
+          alt=""
+          width={61}
+          height={71}
+          className="relative z-10 h-24 w-auto drop-shadow-sm md:h-28 lg:h-32"
+        />
+      </div>
       <div className={cn("-translate-y-1", side === "left" ? "md:text-right" : "md:text-left")}>
         <p className="text-md font-semibold text-foreground">{marker.title}</p>
         <p className="mt-0.5 max-w-48 text-xs text-muted-foreground md:max-w-40 lg:max-w-48">
@@ -94,9 +142,9 @@ export function FeatureMap() {
           />
         </div>
 
-        {featuresCopy.markers.map((marker) => (
+        {featuresCopy.markers.map((marker, index) => (
           <div key={marker.src} className={markerClassName(marker)}>
-            <MarkerBody marker={marker} />
+            <MarkerBody marker={marker} index={index} />
           </div>
         ))}
       </div>
@@ -127,7 +175,7 @@ export function FeatureMap() {
           variants={markerVariants}
           className={markerClassName(marker)}
         >
-          <MarkerBody marker={marker} />
+          <MarkerBody marker={marker} index={index} />
         </motion.div>
       ))}
     </motion.div>
