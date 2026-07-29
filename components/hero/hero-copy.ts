@@ -8,22 +8,10 @@ export const heroCopy = {
     href: "#",
   },
   terminalEchoes: [
-    {
-      src: "/hero/terminal-echo-1.svg",
-      delay: 1,
-    },
-    {
-      src: "/hero/terminal-echo-2.svg",
-      delay: 1,
-    },
-    {
-      src: "/hero/terminal-echo-3.svg",
-      delay: 1,
-    },
-    {
-      src: "/hero/terminal-echo-4.svg",
-      delay: 1,
-    },
+    { src: "/hero/terminal-echo-1.svg" },
+    { src: "/hero/terminal-echo-2.svg" },
+    { src: "/hero/terminal-echo-3.svg" },
+    { src: "/hero/terminal-echo-4.svg" },
   ],
   phones: {
     center: {

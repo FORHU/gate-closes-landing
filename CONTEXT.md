@@ -4,6 +4,10 @@ Marketing landing page for the GateCloses app (community gate/access management)
 
 ## Language
 
+**Section Container**:
+The shared outer-wrapper component (`SectionContainer` in `components/section-container.tsx`) used by every top-level page section (Hero, Features, FAQ, Contact) to get the same horizontal margin/max-width rhythm as the Navbar: `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8`. It governs horizontal layout only — vertical padding, min-height, and backgrounds stay section-specific (e.g. Hero's full-viewport `min-h-dvh`/gradient vs. Features' `py-20` vs. FAQ/Contact's `min-h-screen` centering), since those needs genuinely differ per section.
+_Avoid_: wrapper, outer container, layout container
+
 **Hero Showcase**:
 The visual composition area beneath the headline/CTA in the hero section (`HeroShowcase` in `components/hero/hero-showcase.tsx`) — contains the phone mockups and floating decorative cards.
 _Avoid_: Hero visual, hero graphic
@@ -17,7 +21,7 @@ One of four decorative floating cards in the Hero Showcase, rendered from the `t
 _Avoid_: Terminal card, code snippet, floating SVG
 
 **Floating Wrapper**:
-The shared animation wrapper (`FloatingWrapper` in `hero-showcase.tsx`) that applies a bobbing `y` animation (disabled under `prefers-reduced-motion`) to any child. Used by the Terminal Echo cards.
+The shared animation wrapper (`FloatingWrapper` in `hero-showcase.tsx`) used by the Terminal Echo cards. Plays a one-time directional slide-in (from the card's side — left or right) on mount, then hands off into a continuous bobbing `y` animation once the slide-in settles. Disabled under `prefers-reduced-motion` (renders the final resting state with no animation).
 _Avoid_: Float animation, bob wrapper
 
 **Feature Map**:

@@ -1,4 +1,6 @@
+import type { ComponentProps } from "react"
 import Image from "next/image"
+import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 
 type PhoneMockupProps = {
@@ -6,20 +8,22 @@ type PhoneMockupProps = {
   alt: string
   className?: string
   priority?: boolean
-}
+} & Omit<ComponentProps<typeof motion.div>, "className" | "children">
 
 export function PhoneMockup({
   src,
   alt,
   className,
   priority = false,
+  ...motionProps
 }: PhoneMockupProps) {
   return (
-    <div
+    <motion.div
       className={cn(
         "relative w-[220px] shrink-0 rounded-[2.5rem] border-[6px] border-zinc-900 bg-zinc-900 p-2 shadow-2xl shadow-black/20 sm:w-[240px] lg:w-[260px]",
         className
       )}
+      {...motionProps}
     >
       <div className="absolute left-1/2 top-3 z-10 h-6 w-24 -translate-x-1/2 rounded-full bg-zinc-900" />
       <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2rem] bg-zinc-100">
@@ -32,6 +36,6 @@ export function PhoneMockup({
           sizes="(max-width: 768px) 220px, 260px"
         />
       </div>
-    </div>
+    </motion.div>
   )
 }
