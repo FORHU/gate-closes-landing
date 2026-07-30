@@ -37,4 +37,13 @@ export const featuresCopy = {
       color: "#FF6DA8",
     },
   ],
+  // Decorative only — continues the same fictional-traveler motif as the Hero
+  // Showcase's Terminal Echo cards, reusing the same airports.
+  boardingPass: {
+    flightCode: "GC 452",
+    from: { city: "Singapore", airport: "Changi Airport" },
+    to: { city: "Seoul", airport: "Incheon Airport" },
+    departDate: "14 Dec",
+    arriveDate: "15 Dec",
+  },
 } as const
