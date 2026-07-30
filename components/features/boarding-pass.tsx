@@ -242,7 +242,7 @@ function AirplaneOverlay() {
         delay={CLOUD_ENTRANCE_DELAY}
       />
       <CloudDrift
-        className="absolute right-[-8%] bottom-25 z-0 w-[42%] md:bottom-40"
+        className="absolute right-[2%] bottom-23 z-0 w-[42%] md:bottom-40 md:right-[-8%]"
         offset={16}
         duration={6.5}
         delay={CLOUD_ENTRANCE_DELAY}
