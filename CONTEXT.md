@@ -38,6 +38,10 @@ _Avoid_: Feature Pin, Feature badge, marker icon
 
 _Flagged ambiguity_: `public/features/terminal-echo.svg` (a Feature Marker, map-pin shaped) shares a filename root with the Hero Showcase's `terminal-echo-{1..4}.svg` (a Terminal Echo card, dark rounded-rect terminal mockup) — these are unrelated assets in different sections. Don't conflate them.
 
+**Boarding Pass**:
+The decorative card (`BoardingPass` in `components/features/boarding-pass.tsx`) rendered in the Features section, below the Feature Map. Styled like an airline boarding pass (dashed perforation with notch cutouts separating a route/flight-code half from a barcode half) for a single fixed flight, with a plane traveling along the route line and a decorative (non-scannable) fake barcode. Purely decorative — continues the same fictional-traveler motif as the Hero Showcase's Terminal Echo cards (reuses the same airports) and is not a literal illustration of a GateCloses feature.
+_Avoid_: Flight ticket, ticket card
+
 ## Example dialogue
 
 **Dev**: "I want to add a fifth image to the hero."
