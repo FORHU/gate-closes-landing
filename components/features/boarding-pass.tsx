@@ -92,6 +92,11 @@ const ENTRANCE_SPRING = { type: "spring", stiffness: 140, damping: 18, mass: 0.9
 // ticket, not simultaneously with it.
 const AIRPLANE_ENTRANCE_DELAY = 0.6
 
+// The airplane's own slide-in (ENTRANCE_SPRING) settles roughly 0.8s after it
+// starts — the clouds all pop in together once it has, rather than during or
+// before its arrival.
+const CLOUD_ENTRANCE_DELAY = AIRPLANE_ENTRANCE_DELAY + 0.8
+
 // Purely decorative (like the Hero Showcase's Terminal Echo cards) — sits in
 // front of the Boarding Pass, overlapping its bottom edge, and slides in from
 // the left once the card has settled. Rendered in normal flow (not absolute)
@@ -109,6 +114,73 @@ const airplaneVariants: Variants = {
   },
 }
 
+// Pops in (scale/opacity) when scrolled into view, then settles into a slow
+// ambient left↔right sway. `scale`/`opacity` are safe to trigger `whileInView`
+// on directly — unlike the AirplaneOverlay's large horizontal slide, a
+// scale-to-0 hidden state shrinks the element at its own current position
+// rather than relocating its box off-screen, so it doesn't fight the
+// viewport-intersection check the way that translate did.
+// A plain easeOut tween, not a spring — no overshoot/bounce, just a smooth
+// grow-and-fade-in.
+const CLOUD_POP_TWEEN = { type: "tween", duration: 0.8, ease: "easeOut" } as const
+const CLOUD_POP_SETTLE = 0.8
+
+type CloudMotionProps = { offset: number; swayDuration: number; entranceDelay: number }
+
+const cloudVariants: Variants = {
+  hidden: { scale: 0, opacity: 0, x: 0 },
+  visible: ({ offset, swayDuration, entranceDelay }: CloudMotionProps) => ({
+    scale: 1,
+    opacity: 1,
+    x: [0, offset, 0],
+    transition: {
+      scale: { ...CLOUD_POP_TWEEN, delay: entranceDelay },
+      opacity: { ...CLOUD_POP_TWEEN, delay: entranceDelay },
+      x: {
+        duration: swayDuration,
+        delay: entranceDelay + CLOUD_POP_SETTLE,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  }),
+}
+
+function CloudDrift({
+  className,
+  offset,
+  duration,
+  delay,
+}: {
+  className: string
+  offset: number
+  duration: number
+  delay: number
+}) {
+  const shouldReduceMotion = useReducedMotion()
+
+  const image = (
+    <Image src="/features/cloud.svg" alt="" width={1005} height={540} className="h-auto w-full" />
+  )
+
+  if (shouldReduceMotion) {
+    return <div className={className}>{image}</div>
+  }
+
+  return (
+    <motion.div
+      className={className}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      custom={{ offset, swayDuration: duration, entranceDelay: delay } satisfies CloudMotionProps}
+      variants={cloudVariants}
+    >
+      {image}
+    </motion.div>
+  )
+}
+
 function AirplaneOverlay() {
   const shouldReduceMotion = useReducedMotion()
 
@@ -122,18 +194,16 @@ function AirplaneOverlay() {
     />
   )
 
-  if (shouldReduceMotion) {
-    return <div className="relative z-10 -mt-7 w-full sm:-mt-10 lg:-mt-12">{image}</div>
-  }
-
-  // The slide-in transform lives on the INNER motion.div, not this outer one:
-  // whileInView's `amount` threshold is measured against the observed
-  // element's own (possibly transformed) box, so if the "hidden" x-offset
-  // lived here, this box would already be ~90% off-screen while hidden and
-  // could never reach the 30%-visible threshold needed to trigger itself.
-  // Triggering on this untransformed outer box and propagating to the inner
-  // one via variants sidesteps that self-defeating loop.
-  return (
+  const airplane = shouldReduceMotion ? (
+    <div className="relative z-10 -mt-7 w-full sm:-mt-10 lg:-mt-12">{image}</div>
+  ) : (
+    // The slide-in transform lives on the INNER motion.div, not this outer one:
+    // whileInView's `amount` threshold is measured against the observed
+    // element's own (possibly transformed) box, so if the "hidden" x-offset
+    // lived here, this box would already be ~90% off-screen while hidden and
+    // could never reach the 30%-visible threshold needed to trigger itself.
+    // Triggering on this untransformed outer box and propagating to the inner
+    // one via variants sidesteps that self-defeating loop.
     <motion.div
       className="relative z-10 -mt-24 w-full sm:-mt-50 lg:-mt-55"
       initial="hidden"
@@ -142,6 +212,43 @@ function AirplaneOverlay() {
     >
       <motion.div variants={airplaneVariants}>{image}</motion.div>
     </motion.div>
+  )
+
+  return (
+    <div className="relative">
+      {/* Clouds sit behind (z-0) the airplane (z-10), sharing one bottom
+          baseline so they read as a single low cloud bank: the outer cloud
+          on each side is bigger, so it naturally reaches higher up that
+          side, while the smaller inner ones stay low and overlap toward the
+          center to blend into a continuous band under the airplane. All four
+          pop in together at CLOUD_ENTRANCE_DELAY (after the plane has landed);
+          only their ongoing sway speed differs, for organic movement. */}
+      <CloudDrift
+        className="absolute bottom-20 left-[-8%] z-0 w-[42%] md:bottom-35"
+        offset={-16}
+        duration={8.5}
+        delay={CLOUD_ENTRANCE_DELAY}
+      />
+      <CloudDrift
+        className="absolute bottom-15 left-[20%] z-20 w-[30%] md:bottom-25"
+        offset={-22}
+        duration={7}
+        delay={CLOUD_ENTRANCE_DELAY}
+      />
+      <CloudDrift
+        className="absolute right-[16%] bottom-15 z-20 w-[30%] md:bottom-20"
+        offset={22}
+        duration={9}
+        delay={CLOUD_ENTRANCE_DELAY}
+      />
+      <CloudDrift
+        className="absolute right-[2%] bottom-23 z-0 w-[42%] md:bottom-40 md:right-[-8%]"
+        offset={16}
+        duration={6.5}
+        delay={CLOUD_ENTRANCE_DELAY}
+      />
+      {airplane}
+    </div>
   )
 }
 
