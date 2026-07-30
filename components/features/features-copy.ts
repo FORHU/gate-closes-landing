@@ -37,6 +37,11 @@ export const featuresCopy = {
       color: "#FF6DA8",
     },
   ],
+  boardingPassIntro: {
+    heading: "Create your boarding pass, unlock more",
+    subheading:
+      "Every boarding pass you create syncs your household with Parallel Soul, guides visitors home with Destination Thread, and hands off access in a tap with Baton Touch.",
+  },
   // Decorative only — continues the same fictional-traveler motif as the Hero
   // Showcase's Terminal Echo cards, reusing the same airports.
   boardingPass: {
