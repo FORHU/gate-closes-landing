@@ -1,6 +1,7 @@
 import { SectionContainer } from "@/components/section-container"
 import { featuresCopy } from "./features-copy"
 import { FeatureMap } from "./feature-map"
+import { BoardingPass } from "./boarding-pass"
 
 export function FeaturesSection() {
   return (
@@ -15,6 +16,7 @@ export function FeaturesSection() {
       </div>
 
       <FeatureMap />
+      <BoardingPass />
     </SectionContainer>
   )
 }
