@@ -39,8 +39,12 @@ _Avoid_: Feature Pin, Feature badge, marker icon
 _Flagged ambiguity_: `public/features/terminal-echo.svg` (a Feature Marker, map-pin shaped) shares a filename root with the Hero Showcase's `terminal-echo-{1..4}.svg` (a Terminal Echo card, dark rounded-rect terminal mockup) — these are unrelated assets in different sections. Don't conflate them.
 
 **Boarding Pass**:
-The decorative card (`BoardingPass` in `components/features/boarding-pass.tsx`) rendered in the Features section, below the Feature Map. Styled like an airline boarding pass (dashed perforation with notch cutouts separating a route/flight-code half from a barcode half) for a single fixed flight, with a plane traveling along the route line and a decorative (non-scannable) fake barcode. Purely decorative — continues the same fictional-traveler motif as the Hero Showcase's Terminal Echo cards (reuses the same airports) and is not a literal illustration of a GateCloses feature.
+The decorative card (`BoardingPass` in `components/features/boarding-pass.tsx`) rendered in the Features section, below the Feature Map. Styled like an airline boarding pass (dashed perforation with notch cutouts separating a route/flight-code half from a barcode half) for a single fixed flight, with a plane traveling along the route line and a decorative (non-scannable) fake barcode. Purely decorative — continues the same fictional-traveler motif as the Hero Showcase's Terminal Echo cards (reuses the same airports) and is not a literal illustration of a GateCloses feature. On scroll into view it slides up; the Airplane Overlay then flies in on top of it afterward.
 _Avoid_: Flight ticket, ticket card
+
+**Airplane Overlay**:
+The wide scenic airplane image (`AirplaneOverlay` in `boarding-pass.tsx`, rendering `public/features/airplane-image.svg`) that sits in front of the Boarding Pass, overlapping its top edge. Slides in from the left, delayed until after the Boarding Pass has finished its own slide-up, so it reads as flying in over an already-landed ticket. Purely decorative (`alt=""`), part of the same fictional-traveler motif.
+_Avoid_: Airplane banner, plane graphic
 
 ## Example dialogue
 
