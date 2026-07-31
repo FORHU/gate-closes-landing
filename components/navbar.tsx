@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect} from "react"
+import Image from "next/image"
 import { Download } from "lucide-react"
 import { ScrollProgress } from "./scroll-progress"
 import { Menu } from "lucide-react"
@@ -52,7 +53,7 @@ useEffect(() => {
       <ScrollProgress />
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <a href="#home" className="flex items-center gap-2.5">
-          <img
+          <Image
             src="/gate-closes-logo.svg"
             alt="GateCloses Logo"
             width={40}

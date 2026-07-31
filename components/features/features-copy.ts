@@ -51,4 +51,62 @@ export const featuresCopy = {
     departDate: "14 Dec",
     arriveDate: "15 Dec",
   },
+  // Feeds the Stack Card deck below the Boarding Pass — a scroll-pinned deck
+  // (skiper-ui "Card Stack" pattern) where each card sticks and scales down
+  // as the next one arrives on top of it. One entry per feature not already
+  // given a deep-dive elsewhere.
+  stackCards: [
+    {
+      id: "terminal-echo",
+      eyebrow: "Terminal Echo",
+      heading: "Watch every gate event unfold, live",
+      subheading:
+        "From a tapped badge to a granted entry, Terminal Echo streams it to your feed the instant it happens — so you're never the last to know what's going on at your own gate.",
+      ctaLabel: "See Terminal Echo in action",
+      image: {
+        // Placeholder mockup imagery, not a real product screenshot.
+        src: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1200&auto=format&fit=crop",
+        alt: "Live monitoring dashboard showing real-time activity",
+      },
+    },
+    {
+      id: "parallel-soul",
+      eyebrow: "Parallel Soul",
+      heading: "Every device, seeing the same gate — together",
+      subheading:
+        "One household, one status. When the gate opens for one, every synced device knows instantly, so nobody's left checking a stale screen.",
+      ctaLabel: "See Parallel Soul in action",
+      image: {
+        // Placeholder mockup imagery, not a real product screenshot.
+        src: "https://images.unsplash.com/photo-1730967844913-29eb5cae5f34?q=80&w=1200&auto=format&fit=crop",
+        alt: "Several synced devices displaying the same status",
+      },
+    },
+    {
+      id: "destination-thread",
+      eyebrow: "Destination Thread",
+      heading: "Guide every visitor straight to your door",
+      subheading:
+        "Share one link and Destination Thread walks them in — turn by turn, gate to doorstep, with zero confused phone calls at the gate.",
+      ctaLabel: "See Destination Thread in action",
+      image: {
+        // Placeholder mockup imagery, not a real product screenshot.
+        src: "https://images.unsplash.com/photo-1759256243611-502772ac391b?q=80&w=1200&auto=format&fit=crop",
+        alt: "Phone showing a turn-by-turn navigation app",
+      },
+    },
+    {
+      id: "batton-touch",
+      eyebrow: "Batton touch",
+      heading: "Guide every visitor straight to your door",
+      subheading:
+        "Share one link and Destination Thread walks them in — turn by turn, gate to doorstep, with zero confused phone calls at the gate.",
+      ctaLabel: "See Destination Thread in action",
+      image: {
+        // Placeholder mockup imagery, not a real product screenshot.
+        src: "https://images.unsplash.com/photo-1759256243611-502772ac391b?q=80&w=1200&auto=format&fit=crop",
+        alt: "Phone showing a turn-by-turn navigation app",
+      },
+    },
+  ],
 } as const
