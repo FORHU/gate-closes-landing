@@ -59,6 +59,8 @@ export const featuresCopy = {
     {
       id: "terminal-echo",
       eyebrow: "Terminal Echo",
+      badge: "/features/badge-terminal-echo.svg",
+      color: "#BBE40A",
       heading: "Watch every gate event unfold, live",
       subheading:
         "From a tapped badge to a granted entry, Terminal Echo streams it to your feed the instant it happens — so you're never the last to know what's going on at your own gate.",
@@ -72,6 +74,8 @@ export const featuresCopy = {
     {
       id: "parallel-soul",
       eyebrow: "Parallel Soul",
+      badge: "/features/badge-parallel-soul.svg",
+      color: "#50D6FF",
       heading: "Every device, seeing the same gate — together",
       subheading:
         "One household, one status. When the gate opens for one, every synced device knows instantly, so nobody's left checking a stale screen.",
@@ -85,6 +89,8 @@ export const featuresCopy = {
     {
       id: "destination-thread",
       eyebrow: "Destination Thread",
+      badge: "/features/badge-destination-thread.svg",
+      color: "#FFB457",
       heading: "Guide every visitor straight to your door",
       subheading:
         "Share one link and Destination Thread walks them in — turn by turn, gate to doorstep, with zero confused phone calls at the gate.",
@@ -98,6 +104,8 @@ export const featuresCopy = {
     {
       id: "batton-touch",
       eyebrow: "Batton touch",
+      badge: "/features/badge-baton-touch.svg",
+      color: "#FF6DA8",
       heading: "Guide every visitor straight to your door",
       subheading:
         "Share one link and Destination Thread walks them in — turn by turn, gate to doorstep, with zero confused phone calls at the gate.",

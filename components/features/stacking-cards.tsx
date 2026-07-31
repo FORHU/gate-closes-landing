@@ -23,9 +23,15 @@ function StackCardBody({ card }: { card: StackCard }) {
     // taller neighbors, and the deck's stacking order visibly desyncs mid-scroll.
     <div className="grid min-h-[28rem] items-stretch rounded-2xl bg-linear-to-br from-zinc-900 to-zinc-800 shadow-xl md:min-h-[25rem] md:grid-cols-2">
       <div className="p-6 sm:p-8 lg:p-12">
-        <p className="text-xs font-semibold tracking-[0.2em] text-lime-400 uppercase sm:text-sm">
-          {card.eyebrow}
-        </p>
+        <div className="flex items-center gap-2">
+          <Image src={card.badge} alt="" width={28} height={28} className="size-6 sm:size-7" />
+          <p
+            className="text-xs font-semibold tracking-[0.2em] uppercase sm:text-sm"
+            style={{ color: card.color }}
+          >
+            {card.eyebrow}
+          </p>
+        </div>
         <h3 className="mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl">
           {card.heading}
         </h3>
