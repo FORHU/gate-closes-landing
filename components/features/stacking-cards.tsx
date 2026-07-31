@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import Image from "next/image"
 import { motion, useReducedMotion, useScroll, useSpring, useTransform, type MotionValue } from "motion/react"
-import { Button } from "@/components/ui/button"
+import { FeatureShowcase } from "./feature-showcase"
 import { featuresCopy } from "./features-copy"
 
 type StackCard = (typeof featuresCopy.stackCards)[number]
@@ -36,12 +36,7 @@ function StackCardBody({ card }: { card: StackCard }) {
           {card.heading}
         </h3>
         <p className="mt-4 text-sm text-white/70 sm:text-base">{card.subheading}</p>
-        <Button
-          size="lg"
-          className="mt-6 h-11 rounded-xl bg-white px-6 text-sm font-semibold text-zinc-900 hover:bg-white/90"
-        >
-          {card.ctaLabel}
-        </Button>
+        <FeatureShowcase card={card} />
       </div>
 
       {/* `fill` needs an ancestor with a real height: on mobile (single

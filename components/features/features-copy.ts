@@ -70,6 +70,13 @@ export const featuresCopy = {
         src: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1200&auto=format&fit=crop",
         alt: "Live monitoring dashboard showing real-time activity",
       },
+      // Shown in the "See it in action" dialog/drawer carousel — placeholder
+      // screen for every slide until real per-screen mockups replace it.
+      gallery: [
+        { src: "/features/intro-phone.svg", alt: "Terminal Echo app preview" },
+        { src: "/features/intro-phone.svg", alt: "Terminal Echo app preview" },
+        { src: "/features/intro-phone.svg", alt: "Terminal Echo app preview" },
+      ],
     },
     {
       id: "parallel-soul",
@@ -85,6 +92,11 @@ export const featuresCopy = {
         src: "https://images.unsplash.com/photo-1730967844913-29eb5cae5f34?q=80&w=1200&auto=format&fit=crop",
         alt: "Several synced devices displaying the same status",
       },
+      gallery: [
+        { src: "/features/intro-phone.svg", alt: "Parallel Soul app preview" },
+        { src: "/features/intro-phone.svg", alt: "Parallel Soul app preview" },
+        { src: "/features/intro-phone.svg", alt: "Parallel Soul app preview" },
+      ],
     },
     {
       id: "destination-thread",
@@ -100,6 +112,11 @@ export const featuresCopy = {
         src: "https://images.unsplash.com/photo-1759256243611-502772ac391b?q=80&w=1200&auto=format&fit=crop",
         alt: "Phone showing a turn-by-turn navigation app",
       },
+      gallery: [
+        { src: "/features/intro-phone.svg", alt: "Destination Thread app preview" },
+        { src: "/features/intro-phone.svg", alt: "Destination Thread app preview" },
+        { src: "/features/intro-phone.svg", alt: "Destination Thread app preview" },
+      ],
     },
     {
       id: "batton-touch",
@@ -115,6 +132,11 @@ export const featuresCopy = {
         src: "https://images.unsplash.com/photo-1759256243611-502772ac391b?q=80&w=1200&auto=format&fit=crop",
         alt: "Phone showing a turn-by-turn navigation app",
       },
+      gallery: [
+        { src: "/features/intro-phone.svg", alt: "Baton Touch app preview" },
+        { src: "/features/intro-phone.svg", alt: "Baton Touch app preview" },
+        { src: "/features/intro-phone.svg", alt: "Baton Touch app preview" },
+      ],
     },
   ],
 } as const
