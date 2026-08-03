@@ -3,7 +3,7 @@
 import { useCallback, useSyncExternalStore } from "react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Button } from "@/components/ui/button"
-import { PhoneMockup } from "@/components/hero/phone-mockup"
+import { GalleryPhoneMockup } from "@/components/features/gallery-phone-mockup"
 import {
   Dialog,
   DialogContent,
@@ -24,6 +24,8 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
   useCarousel,
 } from "@/components/ui/carousel"
 import type { featuresCopy } from "./features-copy"
@@ -36,7 +38,7 @@ type GalleryImage = StackCard["gallery"][number]
 function PhoneSlide({ image }: { image: GalleryImage }) {
   return (
     <div className="flex justify-center py-6">
-      <PhoneMockup src={image.src} alt={image.alt} className="w-36 sm:w-40" />
+      <GalleryPhoneMockup src={image.src} alt={image.alt} className="w-36 sm:w-40" />
     </div>
   )
 }
@@ -83,18 +85,29 @@ function CarouselDots({ color }: { color: string }) {
   )
 }
 
-// Slides sit at less than full width so the next one peeks in at the edge —
-// same "there's more, keep going" cue as the reference deck.
-function GalleryCarousel({ card }: { card: StackCard }) {
+// Each slide takes the full carousel width — neighbors sit fully off-screen,
+// not peeking at the edge. Advancing is signalled by the arrows/dots instead.
+//
+// showArrows is desktop (Dialog) only — the mobile Drawer relies on native
+// touch-swipe instead. The arrows sit inset within the carousel rather than
+// the default off-carousel offset, since Carousel and DialogContent share
+// the same max-w-md cap with no side margin for them to sit in.
+function GalleryCarousel({ card, showArrows = false }: { card: StackCard; showArrows?: boolean }) {
   return (
     <Carousel opts={{ loop: true, align: "center" }} className="w-fit max-w-md p-0 overflow-hidden">
-      <CarouselContent className="-ml-8">
+      <CarouselContent className="-ml-4">
         {card.gallery.map((image, index) => (
-          <CarouselItem key={index} className="pl-4 basis-[30%] sm:basis-[75%] flex justify-center">
+          <CarouselItem key={index} className="pl-4 basis-full flex justify-center">
             <PhoneSlide image={image} />
           </CarouselItem>
         ))}
       </CarouselContent>
+      {showArrows && (
+        <>
+          <CarouselPrevious className="left-4" />
+          <CarouselNext className="right-4" />
+        </>
+      )}
       <CarouselDots color={card.color} />
     </Carousel>
   )
@@ -137,7 +150,7 @@ export function FeatureShowcase({ card }: { card: StackCard }) {
           <DialogTitle style={{ color: card.color }} className="text-2xl font-semibold">{card.eyebrow}</DialogTitle>
           <DialogDescription>{card.heading}</DialogDescription>
         </DialogHeader>
-        <GalleryCarousel card={card} />
+        <GalleryCarousel card={card} showArrows />
       </DialogContent>
     </Dialog>
   )
