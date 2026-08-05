@@ -117,7 +117,7 @@ export function StackingCards() {
   }
 
   return (
-    <div ref={containerRef} className="relative mx-auto mt-24 w-full max-w-4xl pb-[60vh] sm:mt-32">
+    <div ref={containerRef} className="relative mx-auto mt-24 w-full max-w-4xl pb-24 sm:mt-32 sm:pb-32">
       {featuresCopy.stackCards.map((card, index) => (
         <StackCardItem
           key={card.id}

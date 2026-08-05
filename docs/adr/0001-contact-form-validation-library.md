@@ -1,0 +1,3 @@
+# Use react-hook-form + zod for the Contact Form, not native HTML validation
+
+The Contact Form (in the Get In Touch Card) only submits via a `mailto:` link — there's no backend endpoint or schema it needs to satisfy today, so native `required`/`type="email"` attributes would have been sufficient on their own. We chose react-hook-form + zod (and shadcn's `Form` wrapper) anyway, to establish a reusable validation pattern for this landing page before more forms are added, rather than hand-rolling error display per form. This is a deliberate over-provision for the current form's actual needs — don't "simplify" it back to native validation without checking whether other forms have since adopted the same pattern.
