@@ -20,7 +20,6 @@ import { contactCopy } from "./contact-copy"
 const contactFormSchema = z.object({
   name: z.string().min(2, "Enter your name."),
   email: z.string().email("Enter a valid email address."),
-  phone: z.string().min(7, "Enter a valid phone number."),
   message: z.string().min(10, "Tell us a bit more about what you need."),
 })
 
@@ -31,7 +30,6 @@ function buildMailtoHref(values: ContactFormValues) {
   const body = [
     `Name: ${values.name}`,
     `Email: ${values.email}`,
-    `Phone: ${values.phone}`,
     "",
     values.message,
   ].join("\n")
@@ -43,7 +41,7 @@ function buildMailtoHref(values: ContactFormValues) {
 export function ContactForm() {
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
-    defaultValues: { name: "", email: "", phone: "", message: "" },
+    defaultValues: { name: "", email: "", message: "" },
   })
 
   function onSubmit(values: ContactFormValues) {
@@ -79,35 +77,19 @@ export function ContactForm() {
           )}
         />
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="jane@example.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone</FormLabel>
-                <FormControl>
-                  <Input type="tel" placeholder="+1 555 000 0000" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input type="email" placeholder="jane@example.com" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
