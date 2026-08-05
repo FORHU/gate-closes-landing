@@ -34,9 +34,13 @@ _Avoid_: Feature Phone, intro phone
 
 **Feature Marker**:
 One of four map-pin-shaped SVGs (`terminal-echo.svg`, `parallel-soul.svg`, `destination-thread.svg`, `baton-touch.svg` in `public/features/`) that land around the Anchor Phone in the Feature Map, one per corner. Each represents one product feature and carries that feature's title — Terminal Echo, Parallel Soul, Destination Thread, and Baton Touch respectively — making it informational, not decorative.
-_Avoid_: Feature Pin, Feature badge, marker icon
+_Avoid_: Feature Pin, Feature Badge, marker icon
 
-_Flagged ambiguity_: `public/features/terminal-echo.svg` (a Feature Marker, map-pin shaped) shares a filename root with the Hero Showcase's `terminal-echo-{1..4}.svg` (a Terminal Echo card, dark rounded-rect terminal mockup) — these are unrelated assets in different sections. Don't conflate them.
+**Feature Badge**:
+One of four small icon SVGs (`badge-terminal-echo.svg`, `badge-parallel-soul.svg`, `badge-destination-thread.svg`, `badge-baton-touch.svg` in `public/features/`) — a different asset from the same-named Feature Marker despite the shared `terminal-echo`/etc. root. Originally rendered at `size-6 sm:size-7` next to each feature's eyebrow label in a Stack Card (`card.badge` in `stacking-cards.tsx`). Reused, larger (`size-8 sm:size-10`) and label-less, as a standalone row at the bottom of the Get In Touch Card's Intro Panel — there it reads as a callback to "these are our four features" rather than identifying any one feature.
+_Avoid_: Feature Marker (reserved for the Feature Map pins), Feature icon
+
+_Flagged ambiguity_: `public/features/terminal-echo.svg` (a Feature Marker, map-pin shaped), `badge-terminal-echo.svg` (a Feature Badge, small icon), and the Hero Showcase's `terminal-echo-{1..4}.svg` (a Terminal Echo card, dark rounded-rect terminal mockup) are three unrelated assets that all share the `terminal-echo` name root. Don't conflate them.
 
 **Gallery Phone**:
 The phone rendered inside each slide of the FeatureShowcase's gallery carousel (`GalleryPhoneMockup` in `components/features/gallery-phone-mockup.tsx`, rendered by `PhoneSlide` in `feature-showcase.tsx`). A standalone bezel component — not the shared `PhoneMockup` used by the Hero Showcase and the Anchor Phone — with no drop shadow, since it sits directly on the dialog/drawer background rather than floating over a gradient. Deliberately not shared code with `PhoneMockup`: a future bezel style change must be applied to both by hand.
@@ -49,6 +53,18 @@ _Avoid_: Flight ticket, ticket card
 **Airplane Overlay**:
 The wide scenic airplane image (`AirplaneOverlay` in `boarding-pass.tsx`, rendering `public/features/airplane-image.svg`) that sits in front of the Boarding Pass, overlapping its top edge. Slides in from the left, delayed until after the Boarding Pass has finished its own slide-up, so it reads as flying in over an already-landed ticket. Purely decorative (`alt=""`), part of the same fictional-traveler motif.
 _Avoid_: Airplane banner, plane graphic
+
+**Get In Touch Card**:
+The single `Card` rendered in the Contact section (`GetInTouchCard` in `components/contact/get-in-touch-card.tsx`) that replaces the earlier "Coming soon" placeholder. Split into two halves side by side (stacked on small screens): an Intro Panel (left) and a Contact Form (right).
+_Avoid_: Contact Card, Contact section (that's the page `<section id="contact">` wrapper — the card is one element inside it)
+
+**Intro Panel**:
+The left half of the Get In Touch Card (`IntroPanel`) — no copy, no form fields. Top-left corner holds the same logo + "GateCloses" wordmark pairing as the Navbar (`flex items-center gap-2.5`, `text-theme` on the wordmark); the bottom holds a row of the four Feature Badges. Styled with the same dark `bg-linear-to-br from-zinc-900 to-zinc-800` gradient as a Stack Card, not the lime `bg-theme` accent — chosen to match the Feature Badges' native background so they read the same way they do in `stacking-cards.tsx`. The Get In Touch Card sizes this column to its content (`grid-cols-[auto_1fr]`, the Feature Badge row being the widest element) rather than splitting the card into two equal halves, so the Contact Form gets the remaining space.
+_Avoid_: Contact Intro, left panel
+
+**Contact Form**:
+The right half of the Get In Touch Card (`ContactForm`) — a "Get In Touch" heading/subheading pair (`text-foreground`/`text-muted-foreground`, matching the Features section's heading style) followed by the Name/Email/Phone/Message fields. Submits via a `mailto:` link (no backend endpoint); not wired to gate-closes-api.
+_Avoid_: Get In Touch Form, contact fields
 
 ## Example dialogue
 
