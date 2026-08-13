@@ -17,12 +17,18 @@ const markerSide: Record<Marker["position"], MarkerSide> = {
 }
 
 // Anchored to the phone's edge (half its rendered width + a fixed gap), not the
-// container edge — PhoneMockup renders at 288px (md) / 336px (lg) wide.
+// container edge — PhoneMockup renders at 240px (md) / 336px (lg) wide. The
+// md phone is deliberately smaller than lg's (240px vs. 336px, matching the
+// reduced-motion branch's own md size): md's container is narrower (tablet,
+// e.g. the 768-1023px range covering iPad Mini/Air portrait) and doesn't
+// have room for both a full desktop-sized phone and unwrapped marker titles
+// (verified against "Destination Thread", the longest title, at the 768px
+// floor of the md range).
 const markerCorner = {
-  "top-left": "md:top-0 md:right-[calc(50%+200px)] lg:right-[calc(50%+232px)]",
-  "top-right": "md:top-0 md:left-[calc(50%+200px)] lg:left-[calc(50%+232px)]",
-  "bottom-left": "md:bottom-0 md:right-[calc(50%+200px)] lg:right-[calc(50%+232px)]",
-  "bottom-right": "md:bottom-0 md:left-[calc(50%+200px)] lg:left-[calc(50%+232px)]",
+  "top-left": "md:top-0 md:right-[calc(50%+136px)] lg:right-[calc(50%+232px)]",
+  "top-right": "md:top-0 md:left-[calc(50%+136px)] lg:left-[calc(50%+232px)]",
+  "bottom-left": "md:bottom-0 md:right-[calc(50%+136px)] lg:right-[calc(50%+232px)]",
+  "bottom-right": "md:bottom-0 md:left-[calc(50%+136px)] lg:left-[calc(50%+232px)]",
 } as const
 
 const phoneVariants: Variants = {
@@ -116,11 +122,11 @@ function MarkerBody({ marker, index }: { marker: Marker; index: number }) {
           alt=""
           width={61}
           height={71}
-          className="relative z-10 h-24 w-auto drop-shadow-sm md:h-28 lg:h-32"
+          className="relative z-10 h-24 w-auto drop-shadow-sm md:h-24 lg:h-32"
         />
       </div>
       <div className={cn("-translate-y-1", side === "left" ? "md:text-right" : "md:text-left")}>
-        <p className="text-md font-semibold text-foreground">{marker.title}</p>
+        <p className="text-md whitespace-nowrap font-semibold text-foreground">{marker.title}</p>
         <p className="mt-0.5 max-w-48 text-xs text-muted-foreground md:max-w-40 lg:max-w-48">
           {marker.description}
         </p>
@@ -164,7 +170,7 @@ export function FeatureMap() {
       >
         <PhoneMockup
           {...featuresCopy.anchorPhone}
-          className="w-72 sm:w-84 md:w-72 lg:w-84"
+          className="w-72 sm:w-84 md:w-60 lg:w-84"
         />
       </motion.div>
 
