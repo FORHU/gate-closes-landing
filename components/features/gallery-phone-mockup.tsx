@@ -10,9 +10,6 @@ type GalleryPhoneMockupProps = {
   priority?: boolean
 } & Omit<ComponentProps<typeof motion.div>, "className" | "children">
 
-// Standalone bezel, deliberately not shared with the Hero/Anchor PhoneMockup —
-// this one has no drop shadow since it sits directly on the dialog/drawer
-// background rather than floating over a gradient.
 export function GalleryPhoneMockup({
   src,
   alt,

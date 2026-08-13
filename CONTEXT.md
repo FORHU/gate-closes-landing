@@ -66,6 +66,11 @@ _Avoid_: Contact Intro, left panel
 The right half of the Get In Touch Card (`ContactForm`) — a "Get In Touch" heading/subheading pair (`text-foreground`/`text-muted-foreground`, matching the Features section's heading style) followed by the Name/Email/Phone/Message fields. Submits via a `mailto:` link (no backend endpoint); not wired to gate-closes-api.
 _Avoid_: Get In Touch Form, contact fields
 
+**Footer**:
+The page-closing `<footer>` (`Footer` in `components/footer.tsx`), rendered once in `app/page.tsx` after the Contact section — not per-section. Deliberately a single left-aligned content stack (logo+wordmark, tagline, social icon row, divider, copyright line) rather than the multi-column "Product/Resources/Company" link-directory layout common on marketing sites: GateCloses is a single-page app landing with no separate Pricing/Docs/Blog/Careers pages for those columns to point to, so a directory-style footer would be mostly dead links. No legal links (Privacy Policy/Terms of Service) are included yet since no such pages exist — add them once real policy pages ship, rather than linking placeholders. Social icons (X, Instagram, Facebook) are present but intentionally point to `href="#"` — an explicit exception to the "don't link placeholders" rule, made because social presence is lower-stakes than a legal page.
+Visually, it's a full-bleed band using the same dark `bg-linear-to-br from-zinc-900 to-zinc-800` gradient as the Intro Panel, with only its top-left/top-right corners rounded (`rounded-t-2xl`) — no bottom rounding or side/bottom margin, since it's the page's terminal element with nothing below it to visually separate from. Its content uses `SectionContainer`, keeping the same horizontal rhythm as every other section rather than a narrower or custom-padded band. Body text (tagline, social icons, copyright) uses `zinc-400`/`zinc-500`/`zinc-700` (light-on-dark), not the `muted-foreground`/`border` tokens used elsewhere on the light `bg-background` — those tokens are illegible on this gradient. The wordmark keeps `text-theme` as it does everywhere else.
+_Avoid_: Site footer (redundant — there's only one), Link directory
+
 ## Example dialogue
 
 **Dev**: "I want to add a fifth image to the hero."
