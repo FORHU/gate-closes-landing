@@ -18,6 +18,8 @@ npm run dev                  # http://localhost:3000
 | `npm run build` | Production build (also type-checks) |
 | `npm run start` | Serve the production build |
 | `npm run lint` | ESLint |
+| `npm run type-check` | TypeScript |
+| `npm run validate` | Admin architecture rules (below) |
 
 Before writing code, read the matching guide in `node_modules/next/dist/docs/`: Next.js 16 differs from older versions (see `AGENTS.md`).
 
@@ -27,6 +29,7 @@ Before writing code, read the matching guide in `node_modules/next/dist/docs/`: 
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Share links, `robots.txt`, `sitemap.xml`. **Set it in production**; it defaults to `http://localhost:3000`. |
 | `ALLOWED_DEV_ORIGINS` | Comma-separated LAN IPs allowed to use the dev server, e.g. when testing from a phone. |
+| `API_URL` | gate-closes-api base URL (no `/api`), server-side only. The admin calls it as `/backend/*` on this site. This site's URL must be in the API's `ALLOWED_ORIGINS`. |
 
 ## Layout
 
@@ -46,6 +49,26 @@ public/                   images (prefer WebP/PNG for photos: SVGs skip Next.js 
 ```
 
 `(marketing)` is a route group: it doesn't appear in the URL. The admin area goes in its own group, `app/(admin)/admin/`, with its own layout.
+
+## Admin area (`/admin`)
+
+Staff log in with their GateCloses account; what they see follows their role's permissions (roles live in gate-closes-api). Structured like the marketPlace admin (FAOS):
+
+```
+app/(admin)/admin/   pages only compose features (no React Query here)
+  _screens/          the client parts of each page
+features/            auth, offers, users, roles — each with
+                     api/ (client + query keys), contracts/ (zod),
+                     hooks/, components/, feature.manifest.ts
+shared/              http client, errors, query wrappers, providers,
+                     permissions, admin layout — no feature imports
+```
+
+Rules (checked by `npm run validate`): features never import each other (combine them in `app/`), `shared/` never imports features, no `../..` imports.
+
+Session: the browser only talks to this site. `/backend/*` is forwarded to the API (`next.config.ts`), so the API's httpOnly login cookies belong to this domain and no token is readable by JavaScript. `proxy.ts` sends visitors without a session cookie to `/admin/login`; the API checks permissions on every request. An expired session is refreshed once, shared by all waiting requests (the API ends the session if a refresh token is used twice).
+
+The marketing page doesn't load any of this: React Query and toasts are only in the admin layout.
 
 ## Words we use
 
