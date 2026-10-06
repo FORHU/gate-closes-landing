@@ -51,7 +51,7 @@ The decorative card (`BoardingPass` in `components/features/boarding-pass.tsx`) 
 _Avoid_: Flight ticket, ticket card
 
 **Airplane Overlay**:
-The wide scenic airplane image (`AirplaneOverlay` in `boarding-pass.tsx`, rendering `public/features/airplane-image.svg`) that sits in front of the Boarding Pass, overlapping its top edge. Slides in from the left, delayed until after the Boarding Pass has finished its own slide-up, so it reads as flying in over an already-landed ticket. Purely decorative (`alt=""`), part of the same fictional-traveler motif.
+The wide scenic airplane image (`AirplaneOverlay` in `boarding-pass.tsx`, rendering `public/features/airplane-image.webp`) that sits in front of the Boarding Pass, overlapping its top edge. Slides in from the left, delayed until after the Boarding Pass has finished its own slide-up, so it reads as flying in over an already-landed ticket. Purely decorative (`alt=""`), part of the same fictional-traveler motif.
 _Avoid_: Airplane banner, plane graphic
 
 **Get In Touch Card**:

@@ -160,7 +160,15 @@ function CloudDrift({
   const shouldReduceMotion = useReducedMotion()
 
   const image = (
-    <Image src="/features/cloud.svg" alt="" width={1005} height={540} className="h-auto w-full" />
+    <Image
+      src="/features/cloud.webp"
+      alt=""
+      width={800}
+      height={430}
+      // Clouds are 30-42% of the max-w-4xl (896px) boarding-pass column.
+      sizes="(max-width: 896px) 42vw, 380px"
+      className="h-auto w-full"
+    />
   )
 
   if (shouldReduceMotion) {
@@ -186,10 +194,12 @@ function AirplaneOverlay() {
 
   const image = (
     <Image
-      src="/features/airplane-image.svg"
+      src="/features/airplane-image.webp"
       alt=""
-      width={1440}
-      height={810}
+      width={1920}
+      height={1080}
+      // Full width of the max-w-4xl (896px) boarding-pass column.
+      sizes="(max-width: 896px) 100vw, 896px"
       className="h-auto w-full"
     />
   )
