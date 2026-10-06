@@ -22,14 +22,30 @@ import {
 import type { featuresCopy } from "./features-copy"
 
 type StackCard = (typeof featuresCopy.stackCards)[number]
-type GalleryImage = StackCard["gallery"][number]
+type OnboardingStep = StackCard["steps"][number]
 
-// Just the phone bezel on a transparent background — no card chrome around
-// it, so it reads as one continuous surface with the dialog behind it.
-function PhoneSlide({ image }: { image: GalleryImage }) {
+// One onboarding step: the phone bezel on a transparent background (no card
+// chrome, so it reads as one surface with the dialog), then the step's
+// number, title and description below it.
+function StepSlide({
+  step,
+  index,
+  total,
+  color,
+}: {
+  step: OnboardingStep
+  index: number
+  total: number
+  color: string
+}) {
   return (
-    <div className="flex justify-center py-4">
-      <GalleryPhoneMockup src={image.src} alt={image.alt} className="w-36 sm:w-40" />
+    <div className="flex flex-col items-center px-12 py-4 text-center">
+      <GalleryPhoneMockup src={step.src} alt={step.alt} className="w-36 sm:w-40" />
+      <p className="mt-5 text-xs font-semibold tracking-wide uppercase" style={{ color }}>
+        Step {index + 1} of {total}
+      </p>
+      <h3 className="mt-1 text-lg font-semibold text-foreground">{step.title}</h3>
+      <p className="mt-1 text-sm text-muted-foreground">{step.description}</p>
     </div>
   )
 }
@@ -78,21 +94,23 @@ function CarouselDots({ color }: { color: string }) {
 
 // Each slide takes the full carousel width — neighbors sit fully off-screen,
 // not peeking at the edge. Advancing is signalled by the arrows/dots instead.
+// No looping: the steps are in order, so the arrows stop at the first and
+// last step. Slides pad their sides (px-12) so step text clears the arrows.
 //
 // The arrows sit inset within the carousel rather than the default
 // off-carousel offset, since Carousel and DialogContent share the same
 // max-w-md cap with no side margin for them to sit in. They're wrapped
 // together with CarouselContent in their own relative div, separate from
 // CarouselDots below — otherwise their vertical centering would resolve
-// against the dots' height too and land below the phone's actual midpoint.
+// against the dots' height too and sit lower still.
 function GalleryCarousel({ card }: { card: StackCard }) {
   return (
-    <Carousel opts={{ loop: true, align: "center" }} className="w-full max-w-md p-0 overflow-hidden">
+    <Carousel opts={{ loop: false, align: "center" }} className="w-full max-w-md p-0 overflow-hidden">
       <div className="relative">
         <CarouselContent className="-ml-4">
-          {card.gallery.map((image, index) => (
+          {card.steps.map((step, index) => (
             <CarouselItem key={index} className="pl-4 basis-full flex justify-center">
-              <PhoneSlide image={image} />
+              <StepSlide step={step} index={index} total={card.steps.length} color={card.color} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -120,7 +138,7 @@ export function FeatureShowcase({ card }: { card: StackCard }) {
       <DialogContent className="max-h-[85vh] overflow-y-auto p-0 sm:max-w-md">
         <DialogHeader className="p-4 pb-0 flex flex-col items-center justify-center">
           <DialogTitle style={{ color: card.color }} className="text-2xl font-semibold">{card.eyebrow}</DialogTitle>
-          <DialogDescription>{card.heading}</DialogDescription>
+          <DialogDescription>How it works</DialogDescription>
         </DialogHeader>
         <GalleryCarousel card={card} />
       </DialogContent>

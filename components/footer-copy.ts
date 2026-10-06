@@ -1,6 +1,6 @@
 export const footerCopy = {
   tagline:
-    "GateCloses helps you manage access, track visitors, notify residents, and stay secure — all in one simple app.",
+    "Leave a record where you pass through, and meet the travelers whose trips cross yours. Starting with airports.",
   // TODO: replace with real profile URLs once these accounts exist.
   socials: [
     { label: "X", href: "#" },

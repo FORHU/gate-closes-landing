@@ -1,8 +1,8 @@
 "use client"
 
 import { useState, useEffect} from "react"
+import { DownloadButton } from "@/components/download-button"
 import Image from "next/image"
-import { Download } from "lucide-react"
 import { ScrollProgress } from "./scroll-progress"
 import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -18,7 +18,6 @@ import { cn } from "@/lib/utils"
 const NAV_LINKS = [
   { label: "Home", href: "#home" },
   { label: "Features", href: "#features" },
-  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ] as const
 
@@ -86,17 +85,7 @@ useEffect(() => {
         </NavigationMenu>
 
         <div className="hidden md:block">
-          <Button
-            nativeButton={false}
-            size="lg"
-            render={(props) => <a href="#" {...props} />} 
-            className={cn(
-              "rounded-xl px-3 py-5 text-sm font-semibold transition-all duration-300 text-secondary bg-secondary-foreground",
-            )}
-          >
-            <Download className="size-4" />
-            Download APK
-          </Button>
+          <DownloadButton className="rounded-xl px-3 py-5 text-sm font-semibold transition-all duration-300 text-secondary bg-secondary-foreground" />
         </div>
 
         <div className="md:hidden">
@@ -127,14 +116,7 @@ useEffect(() => {
                     {link.label}
                   </a>
                 ))}
-                <Button
-                  nativeButton={false}
-                  size="lg"
-                  render={(props) => <a href="#" {...props} />} 
-                  className="w-full rounded-xl px-2 py-5 bg-zinc-900 text-sm font-semibold text-white hover:bg-zinc-800"
-                >
-                  Download APK
-                </Button>
+                <DownloadButton className="w-full rounded-xl px-2 py-5 bg-zinc-900 text-sm font-semibold text-white hover:bg-zinc-800" showIcon={false} />
               </div>
             </SheetContent>
           </Sheet>

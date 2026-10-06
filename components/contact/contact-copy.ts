@@ -2,7 +2,7 @@ export const contactCopy = {
   intro: {
     heading: "Get In Touch",
     subheading:
-      "Have questions about managing access for your community's gate? Reach out and our team will help you get set up.",
+      "Questions, ideas, or want to bring GateCloses somewhere new? Write to us and we'll get back to you.",
   },
   featureBadges: [
     { src: "/features/badge-terminal-echo.svg" },

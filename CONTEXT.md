@@ -1,6 +1,6 @@
 # GateCloses Landing Page
 
-Marketing landing page for the GateCloses app (community gate/access management). This context covers the page's visual vocabulary — the terms used for hero-section and features-section layout and components.
+Marketing landing page for the GateCloses app: travelers leave voice/text records (echoes) at the airport they're in and meet travelers whose trips cross theirs (same route, same destination, opposite direction). Airports first; the product is meant to grow beyond airports, so copy says "starting with airports" rather than airports only. The site will also host the staff admin area (`/admin`). This context covers the page's visual vocabulary — the terms used for hero-section and features-section layout and components.
 
 ## Language
 
@@ -43,8 +43,12 @@ _Avoid_: Feature Marker (reserved for the Feature Map pins), Feature icon
 _Flagged ambiguity_: `public/features/terminal-echo.svg` (a Feature Marker, map-pin shaped), `badge-terminal-echo.svg` (a Feature Badge, small icon), and the Hero Showcase's `terminal-echo-{1..4}.svg` (a Terminal Echo card, dark rounded-rect terminal mockup) are three unrelated assets that all share the `terminal-echo` name root. Don't conflate them.
 
 **Gallery Phone**:
-The phone rendered inside each slide of the FeatureShowcase's gallery carousel (`GalleryPhoneMockup` in `components/features/gallery-phone-mockup.tsx`, rendered by `PhoneSlide` in `feature-showcase.tsx`). A standalone bezel component — not the shared `PhoneMockup` used by the Hero Showcase and the Anchor Phone — with no drop shadow, since it sits directly on the dialog/drawer background rather than floating over a gradient. Deliberately not shared code with `PhoneMockup`: a future bezel style change must be applied to both by hand.
+The phone rendered inside each Onboarding Step slide of the FeatureShowcase's carousel (`GalleryPhoneMockup` in `components/features/gallery-phone-mockup.tsx`, rendered by `StepSlide` in `feature-showcase.tsx`). A standalone bezel component — not the shared `PhoneMockup` used by the Hero Showcase and the Anchor Phone — with no drop shadow, since it sits directly on the dialog/drawer background rather than floating over a gradient. Deliberately not shared code with `PhoneMockup`: a future bezel style change must be applied to both by hand.
 _Avoid_: Feature Phone (reserved for Anchor Phone), Slide Phone, Showcase Phone
+
+**Onboarding Step**:
+One slide of a feature's "See ___ in action" dialog (`StepSlide` in `feature-showcase.tsx`, data in each Stack Card's `steps`): a Gallery Phone, then "Step N of M", a title and a one-line description of how the feature works, in order (the carousel doesn't loop). Three per feature. Steps describe real app behavior (echoes only inside an airport; matches come from the boarding pass the traveler adds), not marketing claims.
+_Avoid_: Gallery slide, tutorial
 
 **Boarding Pass**:
 The decorative card (`BoardingPass` in `components/features/boarding-pass.tsx`) rendered in the Features section, below the Feature Map. Styled like an airline boarding pass (dashed perforation with notch cutouts separating a route/flight-code half from a barcode half) for a single fixed flight, with a plane traveling along the route line and a decorative (non-scannable) fake barcode. Purely decorative — continues the same fictional-traveler motif as the Hero Showcase's Terminal Echo cards (reuses the same airports) and is not a literal illustration of a GateCloses feature. On scroll into view it slides up; the Airplane Overlay then flies in on top of it afterward.

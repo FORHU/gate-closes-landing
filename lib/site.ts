@@ -12,6 +12,13 @@ export const site = {
   tagline: "Leave a record where you pass through.",
   description:
     "Leave voice and text echoes at the airport you're in, and meet the travelers whose trips cross yours. Starting with airports.",
+  // The app download. `href: null` shows a disabled "coming soon" button;
+  // put the APK or Play Store link here once it exists.
+  download: {
+    href: null as string | null,
+    label: "Download the app",
+    comingSoonLabel: "Coming soon to Android",
+  },
   // GateCloses lime (`--theme-color`), for the share image.
   themeColor: "#BBE40A",
 } as const

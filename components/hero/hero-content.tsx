@@ -1,7 +1,6 @@
 "use client"
 
-import { Download } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { DownloadButton } from "@/components/download-button"
 import { heroCopy } from "./hero-copy"
 
 export function HeroContent() {
@@ -16,17 +15,7 @@ export function HeroContent() {
       </p>
 
       <div className="mt-8">
-        <Button
-          nativeButton={false}
-          size="lg"
-          render={(props) => (
-            <a href={heroCopy.cta.href} {...props} />
-          )}
-          className="h-12 w-full rounded-xl bg-primary px-8 text-sm font-semibold text-primary-foreground sm:w-auto"
-        >
-          <Download className="size-4" />
-          {heroCopy.cta.label}
-        </Button>
+        <DownloadButton className="h-12 w-full rounded-xl bg-primary px-8 text-sm font-semibold text-primary-foreground sm:w-auto" />
       </div>
     </div>
   )
