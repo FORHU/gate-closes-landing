@@ -1,6 +1,6 @@
 "use client"
 
-import { KeyRound, Megaphone, Users } from "lucide-react"
+import { KeyRound, Megaphone, Plane, Users } from "lucide-react"
 import { AuthGuard } from "@/features/auth/components/AuthGuard"
 import { useLogout } from "@/features/auth/hooks/useLogout"
 import { usePermissions } from "@/features/auth/hooks/usePermissions"
@@ -11,6 +11,7 @@ const NAV: (NavItem & { permission: Permission })[] = [
   { href: "/admin/offers", label: "Offers", icon: Megaphone, permission: "offers:read" },
   { href: "/admin/users", label: "Users", icon: Users, permission: "users:read" },
   { href: "/admin/roles", label: "Roles", icon: KeyRound, permission: "users:read" },
+  { href: "/admin/airports", label: "Airports", icon: Plane, permission: "airports:manage" },
 ]
 
 /** Staff-only frame: the sidebar shows only what the role can open. */
