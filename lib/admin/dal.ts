@@ -9,6 +9,9 @@ import { readSession } from "./session"
 
 export const ADMIN_ROLES = ["admin", "super_admin"] as const
 
+/** API permission for the Airports admin page (radius, import, redraw). */
+export const AIRPORTS_PERMISSION = "airports:manage"
+
 export type AdminUser = {
   _id: string
   email: string

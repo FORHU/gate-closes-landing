@@ -24,13 +24,13 @@ const EASE = "duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:tran
 
 type NavItem = { label: string; icon: LucideIcon; href?: string }
 
-// Users and Offers (a frontend-only prototype for now) are live; the rest are
-// shown as upcoming and are not links.
+// Users, Offers (a frontend-only prototype for now) and Airports are live;
+// the rest are shown as upcoming and are not links.
 const NAV: NavItem[] = [
   { label: "Users", icon: Users, href: "/admin" },
   { label: "Offers", icon: TicketPercent, href: "/admin/offers" },
   { label: "Roles", icon: ShieldCheck },
-  { label: "Airports", icon: PlaneTakeoff },
+  { label: "Airports", icon: PlaneTakeoff, href: "/admin/airports" },
 ]
 
 // Labels show only while the sidebar is wide (desktop expanded, or the mobile

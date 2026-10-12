@@ -1,7 +1,7 @@
 import "server-only"
 
 type ApiFetchOptions = {
-  method?: "GET" | "POST"
+  method?: "GET" | "POST" | "PATCH"
   body?: unknown
   token?: string
 }
