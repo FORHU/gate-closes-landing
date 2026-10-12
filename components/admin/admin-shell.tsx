@@ -24,11 +24,11 @@ const EASE = "duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:tran
 
 type NavItem = { label: string; icon: LucideIcon; href?: string }
 
-// Users is the only admin page today; the rest are shown as upcoming and
-// are not links.
+// Users and Offers (a frontend-only prototype for now) are live; the rest are
+// shown as upcoming and are not links.
 const NAV: NavItem[] = [
   { label: "Users", icon: Users, href: "/admin" },
-  { label: "Offers", icon: TicketPercent },
+  { label: "Offers", icon: TicketPercent, href: "/admin/offers" },
   { label: "Roles", icon: ShieldCheck },
   { label: "Airports", icon: PlaneTakeoff },
 ]
