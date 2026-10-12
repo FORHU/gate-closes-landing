@@ -1,12 +1,11 @@
-import { Card } from "@/components/ui/card"
 import { ContactForm } from "./contact-form"
 import { IntroPanel } from "./intro-panel"
 
 export function GetInTouchCard() {
   return (
-    <Card className="mx-auto max-w-5xl gap-0 overflow-hidden p-0 [--card-spacing:0px] md:grid md:grid-cols-[auto_1fr]">
+    <div className="mx-auto grid max-w-5xl overflow-hidden rounded-[28px] bg-night-raised ring-1 ring-white/[0.08] md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
       <IntroPanel />
       <ContactForm />
-    </Card>
+    </div>
   )
 }

@@ -197,24 +197,138 @@
   color-scheme: dark;
 }
 
-.hero-gradient {
-  background: linear-gradient(
-    135deg,
-    #eef9c8 0%,
-    #ffffff 50%,
-    #d6ef72 100%
-  );
+/* Landing page. Dusk palette (scoped by the `.dark` wrapper in app/page.tsx)
+   and its motion: one-time entrances plus a few compositor-only loops
+   (transform, opacity, clip-path), removed under reduced motion via
+   `motion-reduce:animate-none` at each use. Only the hero pauses its loops
+   off-screen ([data-paused]); the rest are small enough to leave running.
+   Radius rule: buttons and chips are full pills, panels 28px, nested
+   surfaces 20px, inputs 12px. */
+@theme inline {
+  --color-night: var(--night);
+  --color-night-raised: var(--night-raised);
+  --color-night-inset: var(--night-inset);
+  --color-dusk: var(--dusk);
+  --color-parallel-soul: var(--parallel-soul);
+  --color-destination-thread: var(--destination-thread);
+  --color-baton-touch: var(--baton-touch);
+  --font-display: var(--font-jakarta);
+  --font-flight: var(--font-dm-mono);
 }
 
-@keyframes pulseAnimate {
-  0% {
-    transform: scale(1);
-    opacity: 0.6;
+:root {
+  --night: #07080a;
+  --night-raised: #0e1014;
+  --night-inset: #15181e;
+  --dusk: #f0a565;
+  --parallel-soul: #50d6ff;
+  --destination-thread: #ffb457;
+  --baton-touch: #cf3573;
+}
+
+@theme {
+  --animate-fade-up: fade-up 1s cubic-bezier(0.32, 0.72, 0, 1) both;
+  --animate-plane-in: plane-in 2.4s cubic-bezier(0.32, 0.72, 0, 1) both;
+  --animate-plane-float: plane-float 9s ease-in-out infinite;
+  --animate-cloud-drift: cloud-drift 40s ease-in-out infinite alternate;
+  --animate-nav-light: nav-light 1.4s steps(1) infinite;
+  --animate-strobe: strobe 1.8s linear infinite;
+  --animate-scan: scan 2.6s ease-in-out infinite alternate;
+  --animate-radar: radar 3s cubic-bezier(0.2, 0.6, 0.3, 1) infinite;
+  --animate-wave-progress: wave-progress 8s linear forwards;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+    }
   }
-  100% {
-    transform: scale(1.8);
-    opacity: 0;
+
+  @keyframes plane-in {
+    from {
+      opacity: 0;
+      transform: translate3d(-14vw, 8vh, 0);
+    }
+    40% {
+      opacity: 1;
+    }
   }
+
+  @keyframes plane-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    50% {
+      transform: translate3d(0.6%, -2.2%, 0) rotate(-0.8deg);
+    }
+  }
+
+  @keyframes cloud-drift {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-6%, 0, 0);
+    }
+  }
+
+  @keyframes nav-light {
+    0%,
+    60% {
+      opacity: 1;
+    }
+    61%,
+    100% {
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes strobe {
+    0%,
+    4% {
+      opacity: 1;
+    }
+    5%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes scan {
+    from {
+      transform: translate3d(0, 22%, 0);
+    }
+    to {
+      transform: translate3d(0, 76%, 0);
+    }
+  }
+
+  @keyframes radar {
+    from {
+      transform: scale(0.15);
+      opacity: 0.8;
+    }
+    to {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+
+  @keyframes wave-progress {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+}
+
+[data-paused="true"] *,
+[data-paused="true"] *::before,
+[data-paused="true"] *::after {
+  animation-play-state: paused !important;
 }
 
 @layer base {

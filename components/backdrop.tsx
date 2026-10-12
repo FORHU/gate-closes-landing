@@ -3,12 +3,8 @@
 // film grain. Fixed and inert, so it never repaints on scroll. Place it in a
 // parent with `isolate` so the -z-10 layer stays behind that page's content.
 
-// Fine film grain, drawn once as an SVG data URI.
-const GRAIN =
-  "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")"
-
-const PLANE =
-  "M19 44.72L11.5 31.9075L16.3 30.575L21.9 35.3925L28.9 33.4963L18.55 19.3513L24.35 17.7625L39.3 30.6263L47.8 28.2688C48.8667 27.9613 49.875 28.0894 50.825 28.6531C51.775 29.2169 52.4 30.0454 52.7 31.1388C53 32.2321 52.875 33.2656 52.325 34.2394C51.775 35.2131 50.9667 35.8538 49.9 36.1613L19 44.72Z"
+import { PLANE_PATH as PLANE } from "@/lib/brand"
+import { GRAIN } from "@/lib/grain"
 
 /** `plane={false}` keeps the dashed flight path but drops the moving plane. */
 export function Backdrop({ plane = true }: { plane?: boolean }) {
