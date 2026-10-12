@@ -1,9 +1,9 @@
-import { Suspense, type ReactNode } from "react"
+import { Suspense } from "react"
 import type { Metadata } from "next"
-import Link from "next/link"
 import { redirect } from "next/navigation"
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight, Search } from "lucide-react"
+import { ArrowDown, ArrowUp, Search } from "lucide-react"
 
+import { PaginationBar, parsePage, type Pagination } from "@/components/admin/pagination-bar"
 import { SortSelect } from "@/components/admin/sort-select"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input"
 import { apiFetch } from "@/lib/admin/api"
 import { isAdminRole, requireAdmin } from "@/lib/admin/dal"
 import { DEFAULT_USER_SORT, parseUserSort, type UserSort } from "@/lib/admin/user-sort"
-import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "Admin · GateCloses",
@@ -19,7 +18,6 @@ export const metadata: Metadata = {
 }
 
 const PAGE_SIZE = 10
-const MAX_PAGE = 10_000 // the API rejects anything higher
 
 type ListedUser = {
   _id: string
@@ -28,8 +26,6 @@ type ListedUser = {
   role: string
   createdAt?: string
 }
-
-type Pagination = { page: number; limit: number; total: number; totalPages: number }
 
 /** What the table is showing: the search and the sort order. */
 type View = { q: string; sort: UserSort }
@@ -61,12 +57,6 @@ function first(value?: string | string[]) {
   return Array.isArray(value) ? value[0] : value
 }
 
-/** A positive whole page number from the URL; anything else means page 1. */
-function parsePage(raw?: string | string[]) {
-  const page = Number(first(raw))
-  return Number.isInteger(page) && page >= 1 ? Math.min(page, MAX_PAGE) : 1
-}
-
 /** Keeps the search and sort when changing pages; defaults stay out of the URL. */
 function pageHref({ q, sort }: View, page: number) {
   const params = new URLSearchParams()
@@ -75,19 +65,6 @@ function pageHref({ q, sort }: View, page: number) {
   if (page > 1) params.set("page", String(page))
   const query = params.toString()
   return query ? `/admin?${query}` : "/admin"
-}
-
-/** First, last and the pages around the current one, with gaps between. */
-function pageWindow(page: number, totalPages: number) {
-  const pages = [...new Set([1, page - 1, page, page + 1, totalPages])]
-    .filter((p) => p >= 1 && p <= totalPages)
-    .sort((a, b) => a - b)
-  const items: (number | "gap")[] = []
-  pages.forEach((p, i) => {
-    if (i > 0 && p - pages[i - 1] > 1) items.push("gap")
-    items.push(p)
-  })
-  return items
 }
 
 export default async function AdminDashboardPage({
@@ -248,80 +225,13 @@ async function UsersTable({ accessToken, view, page }: { accessToken: string; vi
           </tbody>
         </table>
       </div>
-      <PaginationBar view={view} pagination={pagination} shown={users.length} />
+      <PaginationBar
+        pagination={pagination}
+        shown={users.length}
+        hrefFor={(p) => pageHref(view, p)}
+        label="Users pagination"
+      />
     </>
-  )
-}
-
-const CONTROL =
-  "inline-flex h-9 min-w-9 items-center justify-center gap-1 rounded-full px-3 text-xs font-medium tabular-nums transition-colors duration-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-theme"
-
-function PaginationBar({ view, pagination, shown }: { view: View; pagination: Pagination; shown: number }) {
-  const { page, limit, total, totalPages } = pagination
-  const from = (page - 1) * limit + 1
-  const to = from + shown - 1
-
-  const step = (target: number, label: string, icon: ReactNode, disabled: boolean) =>
-    disabled ? (
-      <span aria-disabled className={cn(CONTROL, "cursor-not-allowed text-ink/25 ring-1 ring-ink/[0.06]")}>
-        {icon}
-        <span className="max-sm:sr-only">{label}</span>
-      </span>
-    ) : (
-      <Link
-        href={pageHref(view, target)}
-        prefetch={false}
-        scroll={false}
-        aria-label={`${label} page`}
-        className={cn(CONTROL, "text-ink/70 ring-1 ring-ink/10 hover:bg-ink/5 hover:text-ink")}
-      >
-        {icon}
-        <span className="max-sm:sr-only">{label}</span>
-      </Link>
-    )
-
-  return (
-    <nav
-      aria-label="Users pagination"
-      className="flex flex-wrap items-center justify-between gap-3 border-t border-ink/[0.08] pt-4"
-    >
-      <p className="text-xs text-ink/45 tabular-nums">
-        Showing <span className="font-medium text-ink/80">{from}–{to}</span> of{" "}
-        <span className="font-medium text-ink/80">{total}</span>
-      </p>
-
-      {totalPages > 1 && (
-        <div className="flex flex-wrap items-center gap-1.5">
-          {step(page - 1, "Previous", <ChevronLeft strokeWidth={1.5} className="size-4" />, page <= 1)}
-          {pageWindow(page, totalPages).map((item, i) =>
-            item === "gap" ? (
-              <span key={`gap-${i}`} aria-hidden className="px-1 text-xs text-ink/30">
-                …
-              </span>
-            ) : item === page ? (
-              <span key={item} aria-current="page" className={cn(CONTROL, "bg-theme font-semibold text-black")}>
-                {item}
-              </span>
-            ) : (
-              <Link
-                key={item}
-                href={pageHref(view, item)}
-                prefetch={false}
-                scroll={false}
-                aria-label={`Page ${item}`}
-                className={cn(CONTROL, "text-ink/60 hover:bg-ink/5 hover:text-ink")}
-              >
-                {item}
-              </Link>
-            )
-          )}
-          {step(page + 1, "Next", <ChevronRight strokeWidth={1.5} className="size-4" />, page >= totalPages)}
-          <span className="ml-1 text-xs text-ink/40 tabular-nums">
-            Page {page} of {totalPages}
-          </span>
-        </div>
-      )}
-    </nav>
   )
 }
 
