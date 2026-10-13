@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import { useSearchParams } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -14,9 +13,31 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Notice } from "@/shared/components/admin-ui"
 import { LoginSchema, type LoginInput } from "../contracts/auth.contract"
 import { useLogin } from "../hooks/useLogin"
+
+const EASE = "ease-[cubic-bezier(0.32,0.72,0,1)]"
+
+const labelClass = "text-[10px] font-medium tracking-[0.2em] text-white/45 uppercase"
+
+const inputClass = `h-12 rounded-xl border-white/10 bg-white/[0.03] px-4 text-sm text-white placeholder:text-white/25 md:text-sm transition-[border-color,box-shadow,background-color] duration-500 ${EASE} hover:border-white/20 focus-visible:border-theme/60 focus-visible:bg-white/[0.05] focus-visible:ring-4 focus-visible:ring-theme/10`
+
+function ArrowIcon() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="size-3.5" aria-hidden>
+      <path d="M4.5 11.5l7-7M6 4.5h5.5V10" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}
+
+function Spinner() {
+  return (
+    <svg viewBox="0 0 16 16" fill="none" className="size-3.5 animate-spin" aria-hidden>
+      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeOpacity="0.25" strokeWidth="1.25" />
+      <path d="M14 8a6 6 0 0 0-6-6" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" />
+    </svg>
+  )
+}
 
 /** Same account as the app; the role decides what the admin area shows. */
 export function LoginForm() {
@@ -37,26 +58,21 @@ export function LoginForm() {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="w-full max-w-sm space-y-4 rounded-2xl border bg-background p-6 shadow-sm"
-      >
-        <div className="flex items-center gap-2.5">
-          <Image src="/gate-closes-logo.svg" alt="" width={32} height={32} />
-          <div>
-            <h1 className="font-semibold">GateCloses Admin</h1>
-            <p className="text-xs text-muted-foreground">Log in with your GateCloses account.</p>
-          </div>
-        </div>
-
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col gap-6" noValidate>
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
+            <FormItem className="gap-2.5">
+              <FormLabel className={labelClass}>Email</FormLabel>
               <FormControl>
-                <Input type="email" autoComplete="email" {...field} />
+                <Input
+                  type="email"
+                  autoComplete="username"
+                  placeholder="you@gatecloses.com"
+                  className={inputClass}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -66,20 +82,42 @@ export function LoginForm() {
           control={form.control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
+            <FormItem className="gap-2.5">
+              <FormLabel className={labelClass}>Password</FormLabel>
               <FormControl>
-                <Input type="password" autoComplete="current-password" {...field} />
+                <Input
+                  type="password"
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  className={inputClass}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {login.error && <Notice tone="error">{login.error.message}</Notice>}
+        {login.error && (
+          <p
+            role="alert"
+            className="animate-rise rounded-full bg-destructive/10 px-4 py-2.5 text-xs text-red-300 ring-1 ring-destructive/30 motion-reduce:animate-none"
+          >
+            {login.error.message}
+          </p>
+        )}
 
-        <Button type="submit" disabled={login.isPending} className="h-10 w-full">
-          {login.isPending ? "Logging in…" : "Log in"}
+        <Button
+          type="submit"
+          disabled={login.isPending}
+          className={`group mt-2 h-12 w-full justify-between rounded-full bg-theme pr-1.5 pl-6 text-sm font-semibold text-black transition-transform duration-500 ${EASE} hover:bg-theme active:scale-[0.98] disabled:opacity-80`}
+        >
+          {login.isPending ? "Signing in" : "Sign in"}
+          <span
+            className={`flex size-9 items-center justify-center rounded-full bg-black text-theme transition-transform duration-500 ${EASE} group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105`}
+          >
+            {login.isPending ? <Spinner /> : <ArrowIcon />}
+          </span>
         </Button>
       </form>
     </Form>

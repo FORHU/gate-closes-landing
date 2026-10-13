@@ -30,7 +30,7 @@ export function AirportsTable() {
         <Input
           type="search"
           placeholder="Code (BAG, MNL) or name"
-          className="h-8 w-64"
+          className="h-10 w-full rounded-full sm:w-72 border-ink/10 bg-ink/[0.03] px-4 text-sm text-ink placeholder:text-ink/30 md:text-sm focus-visible:border-theme/60 focus-visible:ring-4 focus-visible:ring-theme/10"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
         />
@@ -46,7 +46,7 @@ export function AirportsTable() {
       {airports && airports.length > 0 && (
         <Panel className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="border-b text-left text-xs text-muted-foreground">
+            <thead className="border-b border-ink/[0.08] text-left text-[10px] tracking-[0.18em] text-ink/35 uppercase">
               <tr>
                 <th className="px-4 py-3 font-medium">Airport</th>
                 <th className="px-4 py-3 font-medium">Type</th>
@@ -91,7 +91,7 @@ function AirportRow({ airport }: { airport: AdminAirport }) {
   }
 
   return (
-    <tr className="border-b last:border-0">
+    <tr className="border-b border-ink/[0.06] align-top transition-colors last:border-0 hover:bg-ink/[0.02]">
       <td className="px-4 py-3">
         <div className="font-medium">{airport.airport ?? "—"}</div>
         <div className="mt-0.5 flex gap-1 text-xs text-muted-foreground">

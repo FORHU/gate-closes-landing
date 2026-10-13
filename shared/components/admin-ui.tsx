@@ -12,18 +12,29 @@ export function PageHeader({
   action?: React.ReactNode
 }) {
   return (
-    <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-        {description && <p className="mt-1 text-sm text-muted-foreground">{description}</p>}
+    <header className="mb-8 flex flex-wrap items-end justify-between gap-4 animate-rise motion-reduce:animate-none">
+      <div className="flex flex-col gap-3">
+        <h1 className="text-3xl font-medium tracking-[-0.03em] md:text-4xl">{title}</h1>
+        {description && <p className="max-w-2xl text-sm text-ink/45">{description}</p>}
       </div>
       {action}
-    </div>
+    </header>
   )
 }
 
+/** An outer shell holding a machined inner core; `className` styles the core. */
 export function Panel({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("rounded-xl border bg-background", className)} {...props} />
+  return (
+    <div className="rounded-[1.75rem] bg-ink/[0.03] p-1.5 ring-1 ring-ink/10 animate-rise [animation-delay:80ms] motion-reduce:animate-none">
+      <div
+        className={cn(
+          "rounded-[calc(1.75rem-0.375rem)] bg-panel shadow-[inset_0_1px_1px_rgb(255_255_255/0.07)]",
+          className
+        )}
+        {...props}
+      />
+    </div>
+  )
 }
 
 export function Notice({
@@ -37,8 +48,10 @@ export function Notice({
     <p
       role={tone === "error" ? "alert" : undefined}
       className={cn(
-        "rounded-lg px-3 py-2 text-sm",
-        tone === "error" ? "bg-destructive/10 text-destructive" : "bg-muted text-muted-foreground"
+        "w-fit rounded-full px-4 py-2.5 text-xs ring-1",
+        tone === "error"
+          ? "bg-destructive/10 text-red-600 ring-destructive/30 dark:text-red-300"
+          : "bg-ink/[0.03] text-ink/50 ring-ink/10"
       )}
     >
       {children}
@@ -47,18 +60,18 @@ export function Notice({
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  active: "bg-emerald-100 text-emerald-800",
-  draft: "bg-zinc-100 text-zinc-700",
-  paused: "bg-amber-100 text-amber-800",
-  ended: "bg-zinc-200 text-zinc-500",
+  active: "bg-theme/10 text-theme-ink ring-theme/30",
+  draft: "bg-ink/[0.03] text-ink/60 ring-ink/10",
+  paused: "bg-amber-500/10 text-amber-700 ring-amber-500/30 dark:text-amber-300",
+  ended: "bg-ink/[0.02] text-ink/35 ring-ink/10",
 }
 
 export function StatusPill({ status }: { status: string }) {
   return (
     <span
       className={cn(
-        "inline-flex rounded-full px-2 py-0.5 text-xs font-medium",
-        STATUS_STYLES[status] ?? "bg-muted text-muted-foreground"
+        "inline-flex rounded-full px-2 py-0.5 text-xs font-medium ring-1",
+        STATUS_STYLES[status] ?? "bg-ink/[0.03] text-ink/60 ring-ink/10"
       )}
     >
       {status}
@@ -68,7 +81,7 @@ export function StatusPill({ status }: { status: string }) {
 
 export function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex rounded-md bg-muted px-1.5 py-0.5 font-mono text-[11px]">
+    <span className="inline-flex rounded-md bg-ink/[0.04] px-1.5 py-0.5 font-mono text-[11px] text-ink/70 ring-1 ring-ink/10">
       {children}
     </span>
   )
@@ -79,7 +92,7 @@ export function Select({ className, ...props }: React.ComponentProps<"select">) 
   return (
     <select
       className={cn(
-        "h-8 rounded-md border border-input bg-transparent px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-2 focus-visible:ring-ring/30",
+        "h-10 rounded-full border border-ink/10 bg-ink/[0.03] px-4 text-sm text-ink outline-none transition-[border-color,box-shadow] focus-visible:border-theme/60 focus-visible:ring-4 focus-visible:ring-theme/10",
         className
       )}
       {...props}
@@ -104,8 +117,8 @@ export function CenteredMessage({
 }) {
   return (
     <div className="flex min-h-dvh flex-col items-center justify-center gap-3 p-6 text-center">
-      <h1 className="text-lg font-semibold">{title}</h1>
-      {body && <p className="max-w-md text-sm text-muted-foreground">{body}</p>}
+      <h1 className="text-2xl font-medium tracking-[-0.02em]">{title}</h1>
+      {body && <p className="max-w-md text-sm text-ink/45">{body}</p>}
       {children}
     </div>
   )

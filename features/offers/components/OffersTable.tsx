@@ -36,7 +36,7 @@ export function OffersTable() {
       {offers && offers.length > 0 && (
         <Panel className="overflow-x-auto">
           <table className="w-full text-sm">
-            <thead className="border-b text-left text-xs text-muted-foreground">
+            <thead className="border-b border-ink/[0.08] text-left text-[10px] tracking-[0.18em] text-ink/35 uppercase">
               <tr>
                 <th className="px-4 py-3 font-medium">Offer</th>
                 <th className="px-4 py-3 font-medium">Status</th>
@@ -49,7 +49,7 @@ export function OffersTable() {
             </thead>
             <tbody>
               {offers.map((offer) => (
-                <tr key={offer.id} className="border-b last:border-0 hover:bg-muted/40">
+                <tr key={offer.id} className="border-b border-ink/[0.06] transition-colors last:border-0 hover:bg-ink/[0.02]">
                   <td className="px-4 py-3">
                     <Link
                       href={`/admin/offers/${offer.id}`}
