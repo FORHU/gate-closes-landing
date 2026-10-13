@@ -11,6 +11,7 @@ export const PERMISSIONS = [
   "roles:manage",
   "airports:manage",
   "airports:simulate",
+  "system:read",
 ] as const
 
 export type Permission = (typeof PERMISSIONS)[number]
@@ -21,4 +22,5 @@ export const STAFF_PERMISSIONS: readonly Permission[] = [
   "users:read",
   "roles:manage",
   "airports:manage",
+  "system:read",
 ]

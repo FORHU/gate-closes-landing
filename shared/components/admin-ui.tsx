@@ -51,6 +51,11 @@ const STATUS_STYLES: Record<string, string> = {
   draft: "bg-zinc-100 text-zinc-700",
   paused: "bg-amber-100 text-amber-800",
   ended: "bg-zinc-200 text-zinc-500",
+  ready: "bg-emerald-100 text-emerald-800",
+  up: "bg-emerald-100 text-emerald-800",
+  degraded: "bg-amber-100 text-amber-800",
+  unhealthy: "bg-red-100 text-red-800",
+  down: "bg-red-100 text-red-800",
 }
 
 export function StatusPill({ status }: { status: string }) {
@@ -63,6 +68,25 @@ export function StatusPill({ status }: { status: string }) {
     >
       {status}
     </span>
+  )
+}
+
+/** A big number with its label, e.g. on the overview. */
+export function Stat({
+  label,
+  value,
+  hint,
+}: {
+  label: string
+  value: React.ReactNode
+  hint?: React.ReactNode
+}) {
+  return (
+    <div className="min-w-0">
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="mt-1 text-2xl font-semibold tracking-tight tabular-nums">{value}</p>
+      {hint && <p className="mt-0.5 text-xs text-muted-foreground">{hint}</p>}
+    </div>
   )
 }
 

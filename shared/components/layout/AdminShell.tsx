@@ -6,7 +6,8 @@ import { usePathname } from "next/navigation"
 import { LogOut, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export type NavItem = { href: string; label: string; icon: LucideIcon }
+/** `exact`: active only on [href] itself, not its sub-pages (e.g. the /admin root). */
+export type NavItem = { href: string; label: string; icon: LucideIcon; exact?: boolean }
 
 /**
  * Sidebar (top bar on phones) + page area. Dumb on purpose: the app layer
@@ -36,8 +37,8 @@ export function AdminShell({
         </Link>
 
         <nav className="flex gap-1 overflow-x-auto px-3 pb-3 md:flex-col md:pb-0">
-          {items.map(({ href, label, icon: Icon }) => {
-            const active = pathname === href || pathname.startsWith(`${href}/`)
+          {items.map(({ href, label, icon: Icon, exact }) => {
+            const active = pathname === href || (!exact && pathname.startsWith(`${href}/`))
             return (
               <Link
                 key={href}
