@@ -5,6 +5,7 @@ import { AuthGuard } from "@/features/auth/components/AuthGuard"
 import { useLogout } from "@/features/auth/hooks/useLogout"
 import { usePermissions } from "@/features/auth/hooks/usePermissions"
 import type { Permission } from "@/shared/auth/permissions"
+import type { AdminTheme } from "@/shared/lib/admin-prefs"
 import { AdminShell, type NavItem } from "@/shared/components/layout/AdminShell"
 
 /** No permission: every staff role opens the overview; its cards check their own. */
@@ -16,16 +17,18 @@ const NAV: (NavItem & { permission?: Permission })[] = [
   { href: "/admin/airports", label: "Airports", icon: Plane, permission: "airports:manage" },
 ]
 
+type Prefs = { initialCollapsed: boolean; initialTheme: AdminTheme }
+
 /** Staff-only frame: the sidebar shows only what the role can open. */
-export function PanelShell({ children }: { children: React.ReactNode }) {
+export function PanelShell({ children, ...prefs }: Prefs & { children: React.ReactNode }) {
   return (
     <AuthGuard>
-      <Shell>{children}</Shell>
+      <Shell {...prefs}>{children}</Shell>
     </AuthGuard>
   )
 }
 
-function Shell({ children }: { children: React.ReactNode }) {
+function Shell({ children, ...prefs }: Prefs & { children: React.ReactNode }) {
   const { user, can } = usePermissions()
   const logout = useLogout()
   return (
@@ -33,6 +36,7 @@ function Shell({ children }: { children: React.ReactNode }) {
       items={NAV.filter((item) => !item.permission || can(item.permission))}
       user={{ email: user?.email ?? "", role: user?.role ?? "" }}
       onLogout={logout}
+      {...prefs}
     >
       {children}
     </AdminShell>

@@ -349,3 +349,28 @@
     display: none;
   }
 }
+
+/*
+ * Admin area: the generic shadcn tokens follow the admin palette (paper,
+ * panel, ink, theme), so tables, inputs and buttons inside the admin match
+ * it in both light and dark. Scoped to `[data-admin-root]`; the landing page
+ * is untouched. Placed after `.dark` so it wins at equal specificity, and it
+ * reads `--ink` etc., which `.dark` flips on the same element.
+ */
+[data-admin-root] {
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--panel);
+  --card-foreground: var(--ink);
+  --popover: var(--panel);
+  --popover-foreground: var(--ink);
+  --muted: color-mix(in oklch, var(--ink) 4%, transparent);
+  --muted-foreground: color-mix(in oklch, var(--ink) 50%, transparent);
+  --accent: color-mix(in oklch, var(--ink) 6%, transparent);
+  --accent-foreground: var(--ink);
+  --border: color-mix(in oklch, var(--ink) 10%, transparent);
+  --input: color-mix(in oklch, var(--ink) 15%, transparent);
+  --ring: var(--theme-color);
+  --primary: var(--theme-color);
+  --primary-foreground: oklch(0 0 0);
+}
