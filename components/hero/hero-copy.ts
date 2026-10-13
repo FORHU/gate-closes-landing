@@ -1,25 +1,17 @@
 export const heroCopy = {
-  headline: "Leave a record where you pass through.",
+  headline: "Say hello before the gate closes.",
+  // Max 20 words: the hero carries one idea, details live in the sections below.
   subheadline:
-    "Drop a voice or text echo at the airport you're in, and meet the travelers whose trips cross yours: on your route, landing where you land, or flying back the way you came. Starting with airports.",
-  terminalEchoes: [
-    { src: "/hero/terminal-echo-1.svg" },
-    { src: "/hero/terminal-echo-2.svg" },
-    { src: "/hero/terminal-echo-3.svg" },
-    { src: "/hero/terminal-echo-4.svg" },
-  ],
-  phones: {
-    center: {
-      src: "/hero/phone-center.svg",
-      alt: "GateCloses app: echoes at the airport",
-    },
-    left: {
-      src: "/hero/phone-left.svg",
-      alt: "GateCloses app screen",
-    },
-    right: {
-      src: "/hero/phone-right.svg",
-      alt: "GateCloses app screen",
-    },
+    "A voice-first social app for air travelers. Hear your airport, and talk with people flying your route.",
+  secondaryCta: { label: "How it works", href: "#how-it-works" },
+  // Mixkit clip 10150 (sunset over a sea of clouds), re-encoded as a
+  // forward/reverse loop. Credits in public/media/CREDITS.md.
+  video: {
+    sources: [
+      { src: "/media/hero-1280.mp4", media: "(min-width: 768px)" },
+      { src: "/media/hero-960.mp4" },
+    ],
+    poster: "/media/hero-poster.webp",
   },
+  nearClouds: "/media/near-clouds.webp",
 } as const

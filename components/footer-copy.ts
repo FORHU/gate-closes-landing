@@ -1,6 +1,18 @@
+import { site } from "@/lib/site"
+
 export const footerCopy = {
-  tagline:
-    "Leave a record where you pass through, and meet the travelers whose trips cross yours. Starting with airports.",
+  tagline: "A voice-first social app for air travelers. Hear your airport, and meet the people whose flights cross yours.",
+  columns: [
+    { title: "Explore", links: site.navLinks },
+    {
+      title: "The app",
+      links: [
+        { label: site.downloadLabel, href: site.downloadUrl },
+        { label: "Terminal Echo", href: "#features" },
+        { label: "Connections", href: "#features" },
+      ],
+    },
+  ],
   // TODO: replace with real profile URLs once these accounts exist.
   socials: [
     { label: "X", href: "#" },

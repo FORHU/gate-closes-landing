@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
+import { cn } from "@/lib/utils"
 import { contactCopy } from "./contact-copy"
 
 const contactFormSchema = z.object({
@@ -24,6 +25,11 @@ const contactFormSchema = z.object({
 })
 
 type ContactFormValues = z.infer<typeof contactFormSchema>
+
+// Taller, rounder fields than the shadcn defaults: 12px radius, 16px text so
+// iOS doesn't zoom on focus.
+const FIELD =
+  "h-12 rounded-[12px] border-white/15 bg-white/[0.04] px-4 text-base text-white placeholder:text-white/35 focus-visible:border-theme focus-visible:ring-theme/25 md:text-base dark:bg-white/[0.04]"
 
 function buildMailtoHref(values: ContactFormValues) {
   const subject = `Website inquiry from ${values.name}`
@@ -52,25 +58,17 @@ export function ContactForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex h-full flex-col gap-4 px-6 py-10 sm:px-8 sm:py-12"
+        className="flex h-full flex-col gap-5 px-7 py-10 sm:px-12 sm:py-14"
+        noValidate
       >
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
-            {contactCopy.intro.heading}
-          </h2>
-          <p className="mt-4 text-sm/relaxed text-muted-foreground sm:text-base/relaxed">
-            {contactCopy.intro.subheading}
-          </p>
-        </div>
-
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel className="text-sm text-white/75">Name</FormLabel>
               <FormControl>
-                <Input placeholder="Jane Doe" {...field} />
+                <Input autoComplete="name" className={FIELD} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -82,9 +80,9 @@ export function ContactForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-sm text-white/75">Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="jane@example.com" {...field} />
+                <Input type="email" autoComplete="email" placeholder="you@example.com" className={FIELD} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,21 +94,20 @@ export function ContactForm() {
           name="message"
           render={({ field }) => (
             <FormItem className="flex-1">
-              <FormLabel>Message</FormLabel>
+              <FormLabel className="text-sm text-white/75">Message</FormLabel>
               <FormControl>
-                <Textarea
-                  placeholder="How can we help?"
-                  className="min-h-32"
-                  {...field}
-                />
+                <Textarea placeholder="How can we help?" className={cn(FIELD, "h-auto min-h-36 py-3")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" size="lg" className="self-start px-6">
-          Send
+        <Button
+          type="submit"
+          className="h-13 self-start rounded-full bg-theme px-8 text-[0.95rem] font-semibold text-[#11140a] hover:bg-theme/90 max-sm:w-full"
+        >
+          Send message
         </Button>
       </form>
     </Form>

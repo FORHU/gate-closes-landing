@@ -1,15 +1,16 @@
+import { site } from "@/lib/site"
+
 export const contactCopy = {
   intro: {
-    heading: "Get In Touch",
-    subheading:
-      "Questions, ideas, or want to bring GateCloses somewhere new? Write to us and we'll get back to you.",
+    heading: site.contactLabel,
+    subheading: "Questions, feedback or press. Send a message and the team will get back to you.",
   },
+  // The four match/feature badges, straight from the app's map badges.
   featureBadges: [
-    { src: "/features/badge-terminal-echo.svg" },
-    { src: "/features/badge-parallel-soul.svg" },
-    { src: "/features/badge-destination-thread.svg" },
-    { src: "/features/badge-baton-touch.svg" },
+    { src: "/badges/terminal-echo.svg", alt: "Terminal Echo" },
+    { src: "/badges/parallel-soul.svg", alt: "Parallel Soul" },
+    { src: "/badges/destination-thread.svg", alt: "Destination Thread" },
+    { src: "/badges/baton-touch.svg", alt: "Baton Touch" },
   ],
-  // TODO: replace with the real inbox once one is decided on.
-  recipientEmail: "hello@gatecloses.app",
+  recipientEmail: site.contactEmail,
 } as const
