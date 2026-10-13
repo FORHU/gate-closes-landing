@@ -2,7 +2,7 @@ import { z } from "zod"
 
 /** `GET /admin/users`: newest first, role already resolved ("user" when none). */
 export const AdminUserSchema = z.object({
-  _id: z.string(),
+  id: z.string(),
   email: z.string(),
   username: z.string().nullish(),
   picture: z.string().nullish(),

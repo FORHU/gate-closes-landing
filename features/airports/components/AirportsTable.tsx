@@ -56,7 +56,7 @@ export function AirportsTable() {
             </thead>
             <tbody>
               {airports.map((airport) => (
-                <AirportRow key={airport._id} airport={airport} />
+                <AirportRow key={airport.id} airport={airport} />
               ))}
             </tbody>
           </table>
@@ -77,7 +77,7 @@ function AirportRow({ airport }: { airport: AdminAirport }) {
 
   function save(radiusKm: number | null) {
     setRadius.mutate(
-      { id: airport._id, radiusKm },
+      { id: airport.id, radiusKm },
       {
         onSuccess: () =>
           toast.success(

@@ -4,7 +4,7 @@ import { PERMISSIONS } from "@/shared/auth/permissions"
 /** `GET /auth/me`: the logged-in user and what their role allows. */
 export const MeSchema = z.object({
   user: z.object({
-    _id: z.string(),
+    id: z.string(),
     email: z.string(),
     username: z.string().optional(),
     role: z.string(),

@@ -29,7 +29,7 @@ Before writing code, read the matching guide in `node_modules/next/dist/docs/`: 
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Share links, `robots.txt`, `sitemap.xml`. **Set it in production**; it defaults to `http://localhost:3000`. |
 | `ALLOWED_DEV_ORIGINS` | Comma-separated LAN IPs allowed to use the dev server, e.g. when testing from a phone. |
-| `API_URL` | gate-closes-api base URL (no `/api`), server-side only. The admin calls it as `/backend/*` on this site. This site's URL must be in the API's `ALLOWED_ORIGINS`. |
+| `API_URL` | gate-closes-api-v2 base URL (no `/api`), server-side only. The admin calls it as `/backend/*` on this site. This site's URL must be in the API's `CORS_ORIGIN` (Better Auth trusted origins). |
 
 ## Layout
 

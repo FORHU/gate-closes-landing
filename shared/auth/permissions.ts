@@ -1,6 +1,6 @@
 /**
- * Permissions as gate-closes-api defines them (src/domain/access/permissions.ts).
- * Roles are data in the API; the UI only ever checks permissions.
+ * Permissions as gate-closes-api-v2 defines them (src/auth/access.ts).
+ * Roles are code in the API; the UI only ever checks permissions.
  */
 export const PERMISSIONS = [
   "premium",
@@ -10,6 +10,7 @@ export const PERMISSIONS = [
   "users:role",
   "roles:manage",
   "airports:manage",
+  "airports:simulate",
 ] as const
 
 export type Permission = (typeof PERMISSIONS)[number]

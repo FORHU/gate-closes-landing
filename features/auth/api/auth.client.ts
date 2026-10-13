@@ -5,11 +5,11 @@ export async function getMe() {
   return MeSchema.parse(await fetcher("/auth/me"))
 }
 
-/** Sets the session cookies (web client); the response body isn't needed. */
+/** Better Auth sets the session cookie; the response body isn't needed. */
 export async function login(input: LoginInput) {
-  await fetcher("/auth/login", { method: "POST", body: input })
+  await fetcher("/auth/sign-in/email", { method: "POST", body: input })
 }
 
 export async function logout() {
-  await fetcher("/auth/logout", { method: "POST" }).catch(() => undefined)
+  await fetcher("/auth/sign-out", { method: "POST", body: {} }).catch(() => undefined)
 }

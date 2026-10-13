@@ -49,10 +49,10 @@ export function OffersTable() {
             </thead>
             <tbody>
               {offers.map((offer) => (
-                <tr key={offer._id} className="border-b last:border-0 hover:bg-muted/40">
+                <tr key={offer.id} className="border-b last:border-0 hover:bg-muted/40">
                   <td className="px-4 py-3">
                     <Link
-                      href={`/admin/offers/${offer._id}`}
+                      href={`/admin/offers/${offer.id}`}
                       className="font-medium hover:underline"
                     >
                       {offer.title}

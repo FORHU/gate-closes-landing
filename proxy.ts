@@ -10,8 +10,10 @@ export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl
   if (pathname === "/admin/login") return NextResponse.next()
 
+  // Better Auth's session cookie; `__Secure-` on https.
   const hasSession =
-    request.cookies.has("refresh_token") || request.cookies.has("session_token")
+    request.cookies.has("better-auth.session_token") ||
+    request.cookies.has("__Secure-better-auth.session_token")
   if (hasSession) return NextResponse.next()
 
   const login = new URL("/admin/login", request.url)

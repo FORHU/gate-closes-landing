@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
-// gate-closes-api, reached only through /backend/* (see rewrites below).
-const apiUrl = (process.env.API_URL ?? "http://localhost:3001").replace(/\/$/, "");
+// gate-closes-api-v2, reached only through /backend/* (see rewrites below).
+const apiUrl = (process.env.API_URL ?? "http://localhost:3006").replace(/\/$/, "");
 
 const nextConfig: NextConfig = {
   // The admin area calls the API as /backend/* on this same site, so the

@@ -64,18 +64,18 @@ export function UsersTable({
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user._id} className="border-b last:border-0">
+                <tr key={user.id} className="border-b last:border-0">
                   <td className="px-4 py-3">
                     <div className="font-medium">{user.username ?? "—"}</div>
                     <div className="text-xs text-muted-foreground">{user.email}</div>
                   </td>
                   <td className="px-4 py-3">
-                    {canChangeRole && user._id !== currentUserId ? (
+                    {canChangeRole && user.id !== currentUserId ? (
                       <RolePicker user={user} roles={roles} />
                     ) : (
                       <span>
                         {labelOf(user.role)}
-                        {user._id === currentUserId && (
+                        {user.id === currentUserId && (
                           <span className="text-muted-foreground"> (you)</span>
                         )}
                       </span>
@@ -101,7 +101,7 @@ function RolePicker({ user, roles }: { user: AdminUser; roles: RoleOption[] }) {
     const label = roles.find((r) => r.name === role)?.label ?? role
     if (!window.confirm(`Make ${user.email} a ${label}?`)) return
     setRole.mutate(
-      { id: user._id, role },
+      { id: user.id, role },
       {
         onSuccess: () => toast.success(`${user.email} is now ${label}.`),
         onError: (err) => toast.error(err.message),

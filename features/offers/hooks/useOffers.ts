@@ -37,7 +37,7 @@ export function useSaveOffer(id?: string) {
   return useSafeMutation<Offer, OfferInput>({
     mutationFn: (input) => (id ? updateOffer(id, input) : createOffer(input)),
     onSuccess: (offer) => {
-      client.setQueryData(offersKeys.detail(offer._id), offer)
+      client.setQueryData(offersKeys.detail(offer.id), offer)
       client.invalidateQueries({ queryKey: offersKeys.lists() })
     },
   })

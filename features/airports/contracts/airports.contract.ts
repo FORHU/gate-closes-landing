@@ -2,7 +2,7 @@ import { z } from "zod"
 
 /** `GET /admin/airports`: airports by code or name, with their radius. */
 export const AdminAirportSchema = z.object({
-  _id: z.string(),
+  id: z.string(),
   iata: z.string().nullish(),
   icao: z.string().nullish(),
   airport: z.string().nullish(),

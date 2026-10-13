@@ -18,21 +18,20 @@ export function UsersScreen() {
       <UsersTable
         roles={(roles.data ?? []).map((r) => ({ name: r.name, label: r.label }))}
         canChangeRole={can("users:role")}
-        currentUserId={user?._id ?? ""}
+        currentUserId={user?.id ?? ""}
       />
     </>
   )
 }
 
 export function RolesScreen() {
-  const { can } = usePermissions()
   return (
     <>
       <PageHeader
         title="Roles"
-        description="What each role may do. A user has one role; plain app users are “User”."
+        description="What each role may do. A user has one role; plain app users are “User”. Roles are set in the API's code, so they can't be edited here."
       />
-      <RolesManager canManage={can("roles:manage")} />
+      <RolesManager />
     </>
   )
 }

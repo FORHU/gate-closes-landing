@@ -140,7 +140,7 @@ function OfferForm({
     save.mutate(input, {
       onSuccess: (offer) => {
         toast.success(id ? "Offer saved." : "Offer created.")
-        if (!id) router.replace(`/admin/offers/${offer._id}`)
+        if (!id) router.replace(`/admin/offers/${offer.id}`)
       },
     })
   }
