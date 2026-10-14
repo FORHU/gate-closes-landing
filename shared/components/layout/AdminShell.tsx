@@ -8,7 +8,8 @@ import { ChevronLeft, LogOut, Moon, Sun, type LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { ADMIN_SIDEBAR_COOKIE, ADMIN_THEME_COOKIE, type AdminTheme } from "@/shared/lib/admin-prefs"
 
-export type NavItem = { href: string; label: string; icon: LucideIcon }
+/** `exact`: active only on [href] itself, not its sub-pages (e.g. the /admin root). */
+export type NavItem = { href: string; label: string; icon: LucideIcon; exact?: boolean }
 
 const EASE = "duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
 

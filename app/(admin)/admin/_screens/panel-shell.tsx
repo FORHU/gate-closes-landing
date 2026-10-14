@@ -1,6 +1,6 @@
 "use client"
 
-import { KeyRound, Megaphone, Plane, Users } from "lucide-react"
+import { KeyRound, LayoutDashboard, Megaphone, Plane, Users } from "lucide-react"
 import { AuthGuard } from "@/features/auth/components/AuthGuard"
 import { useLogout } from "@/features/auth/hooks/useLogout"
 import { usePermissions } from "@/features/auth/hooks/usePermissions"
@@ -8,7 +8,9 @@ import type { Permission } from "@/shared/auth/permissions"
 import type { AdminTheme } from "@/shared/lib/admin-prefs"
 import { AdminShell, type NavItem } from "@/shared/components/layout/AdminShell"
 
-const NAV: (NavItem & { permission: Permission })[] = [
+/** No permission: every staff role opens the overview; its cards check their own. */
+const NAV: (NavItem & { permission?: Permission })[] = [
+  { href: "/admin", label: "Overview", icon: LayoutDashboard, exact: true },
   { href: "/admin/offers", label: "Offers", icon: Megaphone, permission: "offers:read" },
   { href: "/admin/users", label: "Users", icon: Users, permission: "users:read" },
   { href: "/admin/roles", label: "Roles", icon: KeyRound, permission: "users:read" },
@@ -31,7 +33,7 @@ function Shell({ children, ...prefs }: Prefs & { children: React.ReactNode }) {
   const logout = useLogout()
   return (
     <AdminShell
-      items={NAV.filter((item) => can(item.permission))}
+      items={NAV.filter((item) => !item.permission || can(item.permission))}
       user={{ email: user?.email ?? "", role: user?.role ?? "" }}
       onLogout={logout}
       {...prefs}

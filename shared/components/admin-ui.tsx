@@ -60,10 +60,15 @@ export function Notice({
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  active: "bg-theme/10 text-theme-ink ring-theme/30",
-  draft: "bg-ink/[0.03] text-ink/60 ring-ink/10",
-  paused: "bg-amber-500/10 text-amber-700 ring-amber-500/30 dark:text-amber-300",
-  ended: "bg-ink/[0.02] text-ink/35 ring-ink/10",
+  active: "bg-emerald-100 text-emerald-800",
+  draft: "bg-zinc-100 text-zinc-700",
+  paused: "bg-amber-100 text-amber-800",
+  ended: "bg-zinc-200 text-zinc-500",
+  ready: "bg-emerald-100 text-emerald-800",
+  up: "bg-emerald-100 text-emerald-800",
+  degraded: "bg-amber-100 text-amber-800",
+  unhealthy: "bg-red-100 text-red-800",
+  down: "bg-red-100 text-red-800",
 }
 
 export function StatusPill({ status }: { status: string }) {
@@ -76,6 +81,25 @@ export function StatusPill({ status }: { status: string }) {
     >
       {status}
     </span>
+  )
+}
+
+/** A big number with its label, e.g. on the overview. */
+export function Stat({
+  label,
+  value,
+  hint,
+}: {
+  label: string
+  value: React.ReactNode
+  hint?: React.ReactNode
+}) {
+  return (
+    <div className="min-w-0">
+      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="mt-1 text-2xl font-semibold tracking-tight tabular-nums">{value}</p>
+      {hint && <p className="mt-0.5 text-xs text-muted-foreground">{hint}</p>}
+    </div>
   )
 }
 
