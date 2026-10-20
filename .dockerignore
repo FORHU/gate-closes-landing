@@ -1,0 +1,30 @@
+# Keeping these out of the build context matters for more than speed:
+# a host node_modules built for another platform would be copied over the one
+# pnpm installs in the image, and a stale .next would be served instead of the
+# freshly built one.
+node_modules
+.next
+out
+
+.git
+.github
+.vscode
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+.env
+.env.*
+!.env.example
+
+README.md
+CLAUDE.md
+AGENTS.md
+CONTEXT.md
+docs
+
+# npm's lockfile is committed alongside pnpm's; only pnpm-lock.yaml is used to
+# build, so excluding this one keeps the image from implying otherwise.
+package-lock.json

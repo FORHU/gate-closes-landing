@@ -1,142 +1,76 @@
+// Every claim here maps to shipped behavior in gate-closes-api /
+// gate-closes-app-v2 (see CONTEXT.md). Badge SVGs are the app's own map
+// badges, copied from gate-closes-app-v2/assets/map_badges.
 export const featuresCopy = {
-  heading: "Everything your gate needs, in one app",
+  heading: "Built for the hours between check-in and takeoff.",
   subheading:
-    "From live activity to visitor hand-offs, GateCloses keeps every part of community access in sync.",
-  anchorPhone: {
-    src: "/features/intro-phone.svg",
-    alt: "GateCloses app feature preview",
+    "Short voice posts for the whole terminal, and private conversations with travelers whose flights line up with yours.",
+  echo: {
+    name: "Terminal Echo",
+    badge: "/badges/terminal-echo.svg",
+    heading: "Hear what's happening at your airport.",
+    body: "Voice clips of up to 10 seconds, visible to everyone at the airport. Travelers on site can react and reply.",
+    // Example post for the preview card.
+    sample: {
+      author: "mara.k",
+      meta: "SIN Terminal 3 · 4 min ago",
+      caption: "Security at T3 is moving fast right now. Ten minutes, tops.",
+      duration: "0:08",
+      reactions: { like: 12, love: 4, haha: 2 },
+      footer: "3 replies · 41 listens",
+    },
   },
-  // `color` mirrors each marker SVG's own accent gradient — used for its pulse rings.
-  markers: [
-    {
-      src: "/features/terminal-echo.svg",
-      title: "Terminal Echo",
-      description: "Every gate event echoes back in real time, so you always know who came and went.",
-      position: "top-left",
-      color: "#BBE40A",
-    },
-    {
-      src: "/features/parallel-soul.svg",
-      title: "Parallel Soul",
-      description: "Keep every device in your household in sync, always seeing the same gate status.",
-      position: "top-right",
-      color: "#50D6FF",
-    },
-    {
-      src: "/features/destination-thread.svg",
-      title: "Destination Thread",
-      description: "Guide every visitor straight to your door with a clear, trackable path.",
-      position: "bottom-left",
-      color: "#FFB457",
-    },
-    {
-      src: "/features/baton-touch.svg",
-      title: "Baton Touch",
-      description: "Pass access along in a tap — from guard to resident, instantly.",
-      position: "bottom-right",
-      color: "#FF6DA8",
-    },
-  ],
-  boardingPassIntro: {
-    heading: "Create your boarding pass, unlock more",
-    subheading:
-      "Every boarding pass you create syncs your household with Parallel Soul, guides visitors home with Destination Thread, and hands off access in a tap with Baton Touch.",
+  connections: {
+    name: "Connections",
+    heading: "Three ways your flight meets someone else's.",
+    body: "When flights line up, you can start a private voice conversation. They only see it once you send the first voice note.",
+    yourFlight: "SIN to ICN",
+    matches: [
+      {
+        id: "parallel-soul",
+        name: "Parallel Soul",
+        badge: "/badges/parallel-soul.svg",
+        color: "var(--parallel-soul)",
+        route: "SIN to ICN",
+        body: "Same origin, same destination. Someone making your exact trip.",
+      },
+      {
+        id: "destination-thread",
+        name: "Destination Thread",
+        badge: "/badges/destination-thread.svg",
+        color: "var(--destination-thread)",
+        route: "BKK to ICN",
+        body: "Same destination from somewhere else, landing within 24 hours of you.",
+      },
+      {
+        id: "baton-touch",
+        name: "Baton Touch",
+        badge: "/badges/baton-touch.svg",
+        color: "var(--baton-touch)",
+        route: "ICN to SIN",
+        body: "Flying the opposite way. Swap gate tips and transfer advice.",
+      },
+    ],
   },
-  // Decorative only — continues the same fictional-traveler motif as the Hero
-  // Showcase's Terminal Echo cards, reusing the same airports.
-  boardingPass: {
-    flightCode: "GC 452",
-    from: { city: "Singapore", airport: "Changi Airport" },
-    to: { city: "Seoul", airport: "Incheon Airport" },
-    departDate: "14 Dec",
-    arriveDate: "15 Dec",
+  map: {
+    name: "World Map",
+    heading: "Every echo, pinned where it was posted.",
+    body: "Pins are badged by how that traveler's flight relates to yours. Tap one to listen or start a conversation.",
+    pins: [
+      { badge: "/badges/terminal-echo.svg", x: "38%", y: "38%" },
+      { badge: "/badges/parallel-soul.svg", x: "58%", y: "30%" },
+      { badge: "/badges/destination-thread.svg", x: "64%", y: "64%" },
+      { badge: "/badges/baton-touch.svg", x: "33%", y: "68%" },
+      { badge: "/badges/offer.svg", x: "49%", y: "54%" },
+      { badge: "/badges/cluster.svg", x: "22%", y: "48%", count: 3 },
+    ],
   },
-  // Feeds the Stack Card deck below the Boarding Pass — a scroll-pinned deck
-  // (skiper-ui "Card Stack" pattern) where each card sticks and scales down
-  // as the next one arrives on top of it. One entry per feature not already
-  // given a deep-dive elsewhere.
-  stackCards: [
-    {
-      id: "terminal-echo",
-      eyebrow: "Terminal Echo",
-      badge: "/features/badge-terminal-echo.svg",
-      color: "#BBE40A",
-      heading: "Watch every gate event unfold, live",
-      subheading:
-        "From a tapped badge to a granted entry, Terminal Echo streams it to your feed the instant it happens — so you're never the last to know what's going on at your own gate.",
-      ctaLabel: "See Terminal Echo in action",
-      image: {
-        // Placeholder mockup imagery, not a real product screenshot.
-        src: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1200&auto=format&fit=crop",
-        alt: "Live monitoring dashboard showing real-time activity",
-      },
-      // Shown in the "See it in action" dialog/drawer carousel — placeholder
-      // screen for every slide until real per-screen mockups replace it.
-      gallery: [
-        { src: "/features/intro-phone.svg", alt: "Terminal Echo app preview" },
-        { src: "/features/intro-phone.svg", alt: "Terminal Echo app preview" },
-        { src: "/features/intro-phone.svg", alt: "Terminal Echo app preview" },
-      ],
-    },
-    {
-      id: "parallel-soul",
-      eyebrow: "Parallel Soul",
-      badge: "/features/badge-parallel-soul.svg",
-      color: "#50D6FF",
-      heading: "Every device, seeing the same gate — together",
-      subheading:
-        "One household, one status. When the gate opens for one, every synced device knows instantly, so nobody's left checking a stale screen.",
-      ctaLabel: "See Parallel Soul in action",
-      image: {
-        // Placeholder mockup imagery, not a real product screenshot.
-        src: "https://images.unsplash.com/photo-1730967844913-29eb5cae5f34?q=80&w=1200&auto=format&fit=crop",
-        alt: "Several synced devices displaying the same status",
-      },
-      gallery: [
-        { src: "/features/intro-phone.svg", alt: "Parallel Soul app preview" },
-        { src: "/features/intro-phone.svg", alt: "Parallel Soul app preview" },
-        { src: "/features/intro-phone.svg", alt: "Parallel Soul app preview" },
-      ],
-    },
-    {
-      id: "destination-thread",
-      eyebrow: "Destination Thread",
-      badge: "/features/badge-destination-thread.svg",
-      color: "#FFB457",
-      heading: "Guide every visitor straight to your door",
-      subheading:
-        "Share one link and Destination Thread walks them in — turn by turn, gate to doorstep, with zero confused phone calls at the gate.",
-      ctaLabel: "See Destination Thread in action",
-      image: {
-        // Placeholder mockup imagery, not a real product screenshot.
-        src: "https://images.unsplash.com/photo-1759256243611-502772ac391b?q=80&w=1200&auto=format&fit=crop",
-        alt: "Phone showing a turn-by-turn navigation app",
-      },
-      gallery: [
-        { src: "/features/intro-phone.svg", alt: "Destination Thread app preview" },
-        { src: "/features/intro-phone.svg", alt: "Destination Thread app preview" },
-        { src: "/features/intro-phone.svg", alt: "Destination Thread app preview" },
-      ],
-    },
-    {
-      id: "batton-touch",
-      eyebrow: "Batton touch",
-      badge: "/features/badge-baton-touch.svg",
-      color: "#FF6DA8",
-      heading: "Guide every visitor straight to your door",
-      subheading:
-        "Share one link and Destination Thread walks them in — turn by turn, gate to doorstep, with zero confused phone calls at the gate.",
-      ctaLabel: "See Destination Thread in action",
-      image: {
-        // Placeholder mockup imagery, not a real product screenshot.
-        src: "https://images.unsplash.com/photo-1759256243611-502772ac391b?q=80&w=1200&auto=format&fit=crop",
-        alt: "Phone showing a turn-by-turn navigation app",
-      },
-      gallery: [
-        { src: "/features/intro-phone.svg", alt: "Baton Touch app preview" },
-        { src: "/features/intro-phone.svg", alt: "Baton Touch app preview" },
-        { src: "/features/intro-phone.svg", alt: "Baton Touch app preview" },
-      ],
-    },
-  ],
+  offers: {
+    name: "Airport offers",
+    badge: "/badges/offer.svg",
+    heading: "Vouchers and lounge passes, where you are.",
+    body: "Offers show up for the airport you're in. Claim one and the code is yours.",
+    // Example offer for the preview card.
+    sample: { title: "Lounge pass", meta: "SIN Terminal 3", code: "GC7-LNG-24" },
+  },
 } as const

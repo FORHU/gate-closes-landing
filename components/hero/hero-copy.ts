@@ -1,30 +1,17 @@
 export const heroCopy = {
-  badge: "Smart Gate Management",
-  headline: "Manage Your Community Anytime, Anywhere.",
+  headline: "Say hello before the gate closes.",
+  // Max 20 words: the hero carries one idea, details live in the sections below.
   subheadline:
-    "GateCloses helps you manage access, track visitors, notify residents, and stay secure — all in one simple app.",
-  cta: {
-    label: "Download APK",
-    href: "#",
+    "A voice-first social app for air travelers. Hear your airport, and talk with people flying your route.",
+  secondaryCta: { label: "How it works", href: "#how-it-works" },
+  // Mixkit clip 10150 (sunset over a sea of clouds), re-encoded as a
+  // forward/reverse loop. Credits in public/media/CREDITS.md.
+  video: {
+    sources: [
+      { src: "/media/hero-1280.mp4", media: "(min-width: 768px)" },
+      { src: "/media/hero-960.mp4" },
+    ],
+    poster: "/media/hero-poster.webp",
   },
-  terminalEchoes: [
-    { src: "/hero/terminal-echo-1.svg" },
-    { src: "/hero/terminal-echo-2.svg" },
-    { src: "/hero/terminal-echo-3.svg" },
-    { src: "/hero/terminal-echo-4.svg" },
-  ],
-  phones: {
-    center: {
-      src: "/hero/phone-center.svg",
-      alt: "GateCloses app home screen",
-    },
-    left: {
-      src: "/hero/phone-left.svg",
-      alt: "GateCloses app assistant screen",
-    },
-    right: {
-      src: "/hero/phone-right.svg",
-      alt: "GateCloses app activity screen",
-    },
-  },
+  nearClouds: "/media/near-clouds.webp",
 } as const
