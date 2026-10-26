@@ -13,6 +13,10 @@ export const AdminAirportSchema = z.object({
   radiusManual: z.boolean(),
   /** What "Reset" goes back to: the size for its type. */
   defaultRadiusKm: z.number().nullable(),
+  /** Set by an admin: `true` always on the map, `false` never, null/absent = auto. */
+  showOnMap: z.boolean().nullish(),
+  /** On the map automatically: large, or with echoes or a live offer. */
+  busy: z.boolean().optional(),
 })
 export type AdminAirport = z.infer<typeof AdminAirportSchema>
 

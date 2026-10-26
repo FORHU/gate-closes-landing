@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Notice, Panel, Pill } from "@/shared/components/admin-ui"
 import { RADIUS_LIMITS_KM, type AdminAirport } from "../contracts/airports.contract"
-import { useAirports, useSetAirportRadius } from "../hooks/useAirports"
+import {
+  useAirports,
+  useSetAirportMapVisibility,
+  useSetAirportRadius,
+} from "../hooks/useAirports"
 
 const TYPE_LABEL: Record<string, string> = {
   large_airport: "Large",
@@ -17,7 +21,8 @@ const TYPE_LABEL: Record<string, string> = {
 /**
  * Airports by code or name, with the radius that counts as "at the airport"
  * (where echoes can be posted, and the circle on the map). Each one can get
- * its own radius, or go back to the default for its type.
+ * its own radius, or go back to the default for its type, and can be always
+ * shown on or hidden from the map instead of only when busy.
  */
 export function AirportsTable() {
   const [search, setSearch] = useState("")
@@ -52,6 +57,7 @@ export function AirportsTable() {
                 <th className="px-4 py-3 font-medium">Type</th>
                 <th className="px-4 py-3 font-medium">Radius</th>
                 <th className="px-4 py-3 font-medium">Change radius</th>
+                <th className="px-4 py-3 font-medium">On map</th>
               </tr>
             </thead>
             <tbody>
@@ -154,6 +160,73 @@ function AirportRow({ airport }: { airport: AdminAirport }) {
           </p>
         )}
       </td>
+      <td className="px-4 py-3">
+        <MapVisibility airport={airport} name={name} />
+      </td>
     </tr>
+  )
+}
+
+const MAP_CHOICES = [
+  { label: "Auto", value: null, title: "Shown when busy: large, or with echoes or a live offer" },
+  { label: "Show", value: true, title: "Always on the map" },
+  { label: "Hide", value: false, title: "Never on the map" },
+] as const
+
+/**
+ * Whether the airport is on the app's map: automatically (busy airports
+ * only), or always shown or hidden by an admin.
+ */
+function MapVisibility({ airport, name }: { airport: AdminAirport; name: string }) {
+  const setMap = useSetAirportMapVisibility()
+  const override = airport.showOnMap ?? null
+  const onMap = override ?? airport.busy
+
+  function save(showOnMap: boolean | null) {
+    setMap.mutate(
+      { id: airport.id, showOnMap },
+      {
+        onSuccess: () =>
+          toast.success(
+            showOnMap === null
+              ? `${name}: on the map when busy.`
+              : `${name}: ${showOnMap ? "always on" : "hidden from"} the map.`
+          ),
+        onError: (err) => toast.error(err.message),
+      }
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="whitespace-nowrap">
+        <span className="font-medium">
+          {onMap === undefined ? "—" : onMap ? "On map" : "Hidden"}
+        </span>{" "}
+        {override !== null ? (
+          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-800">
+            Set by admin
+          </span>
+        ) : (
+          <span className="text-xs text-muted-foreground">Auto</span>
+        )}
+      </div>
+      <div className="flex gap-1" role="group" aria-label={`${name} on the map`}>
+        {MAP_CHOICES.map((choice) => (
+          <Button
+            key={choice.label}
+            type="button"
+            variant={override === choice.value ? "default" : "outline"}
+            className="h-8 px-3"
+            title={choice.title}
+            aria-pressed={override === choice.value}
+            disabled={setMap.isPending || override === choice.value}
+            onClick={() => save(choice.value)}
+          >
+            {choice.label}
+          </Button>
+        ))}
+      </div>
+    </div>
   )
 }
