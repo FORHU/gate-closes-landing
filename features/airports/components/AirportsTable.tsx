@@ -5,11 +5,12 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Notice, Panel, Pill } from "@/shared/components/admin-ui"
-import { RADIUS_LIMITS_KM, type AdminAirport } from "../contracts/airports.contract"
+import { RADIUS_LIMITS_KM, parseLatLng, type AdminAirport } from "../contracts/airports.contract"
 import {
   useAirports,
   useSetAirportMapVisibility,
   useSetAirportRadius,
+  useSetAirportTerminal,
 } from "../hooks/useAirports"
 
 const TYPE_LABEL: Record<string, string> = {
@@ -58,6 +59,7 @@ export function AirportsTable() {
                 <th className="px-4 py-3 font-medium">Radius</th>
                 <th className="px-4 py-3 font-medium">Change radius</th>
                 <th className="px-4 py-3 font-medium">On map</th>
+                <th className="px-4 py-3 font-medium">Terminal</th>
               </tr>
             </thead>
             <tbody>
@@ -163,7 +165,98 @@ function AirportRow({ airport }: { airport: AdminAirport }) {
       <td className="px-4 py-3">
         <MapVisibility airport={airport} name={name} />
       </td>
+      <td className="px-4 py-3">
+        <TerminalLocation airport={airport} name={name} />
+      </td>
     </tr>
+  )
+}
+
+const SOURCE_LABEL = { osm: "OpenStreetMap", admin: "Set by admin" } as const
+
+/**
+ * Where the airport is centred: its terminal (from OpenStreetMap, or set
+ * here) or the dataset's point, usually mid-runway. The circle, where
+ * echoes can be posted, and where offers appear all follow it.
+ */
+function TerminalLocation({ airport, name }: { airport: AdminAirport; name: string }) {
+  const setTerminal = useSetAirportTerminal()
+  const [value, setValue] = useState("")
+  const parsed = parseLatLng(value)
+  const source = airport.locationSource ?? null
+  const [lng, lat] = airport.location?.coordinates ?? []
+
+  function save(terminal: { lat: number; lng: number } | null) {
+    setTerminal.mutate(
+      { id: airport.id, terminal },
+      {
+        onSuccess: () => {
+          setValue("")
+          toast.success(
+            terminal === null ? `${name}: back to the runway point.` : `${name}: terminal set.`
+          )
+        },
+        onError: (err) => toast.error(err.message),
+      }
+    )
+  }
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="whitespace-nowrap">
+        {source === "admin" ? (
+          <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-800">
+            {SOURCE_LABEL.admin}
+          </span>
+        ) : (
+          <span className="text-xs text-muted-foreground">
+            {source ? SOURCE_LABEL[source] : "Runway point"}
+          </span>
+        )}{" "}
+        {lat !== undefined && lng !== undefined && (
+          <a
+            className="text-xs text-muted-foreground underline underline-offset-2"
+            href={`https://www.google.com/maps?q=${lat},${lng}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            {lat.toFixed(5)}, {lng.toFixed(5)}
+          </a>
+        )}
+      </div>
+      <form
+        className="flex items-center gap-2"
+        onSubmit={(e) => {
+          e.preventDefault()
+          if (parsed) save(parsed)
+        }}
+      >
+        <Input
+          aria-label={`Terminal of ${name} as latitude, longitude`}
+          placeholder="lat, lng"
+          className="h-8 w-44"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+        />
+        <Button type="submit" className="h-8 px-3" disabled={!parsed || setTerminal.isPending}>
+          Save
+        </Button>
+        {source && (
+          <Button
+            type="button"
+            variant="outline"
+            className="h-8 px-3"
+            disabled={setTerminal.isPending}
+            onClick={() => save(null)}
+          >
+            Reset
+          </Button>
+        )}
+      </form>
+      {value.trim() !== "" && !parsed && (
+        <p className="text-xs text-destructive">Paste it as “lat, lng”, e.g. 16.3757, 120.6132.</p>
+      )}
+    </div>
   )
 }
 
