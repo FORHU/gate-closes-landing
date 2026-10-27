@@ -1,9 +1,22 @@
-import { fetcher } from "@/shared/lib/http"
-import { AdminAirportSchema, AdminAirportsResponseSchema } from "../contracts/airports.contract"
+import { fetchPayload, fetcher } from "@/shared/lib/http"
+import {
+  AIRPORTS_PAGE_SIZE,
+  AdminAirportSchema,
+  AdminAirportsPageSchema,
+  type AirportsFilter,
+} from "../contracts/airports.contract"
 
-export async function getAirports(q: string) {
-  const query = new URLSearchParams({ q, limit: "50" })
-  return AdminAirportsResponseSchema.parse(await fetcher(`/admin/airports?${query}`))
+/** One page of airports matching the search and filters, with totals. */
+export async function getAirports(filter: AirportsFilter) {
+  const query = new URLSearchParams({
+    q: filter.q,
+    page: String(filter.page),
+    limit: String(AIRPORTS_PAGE_SIZE),
+  })
+  if (filter.country) query.set("country", filter.country)
+  if (filter.source) query.set("source", filter.source)
+  if (filter.map) query.set("map", filter.map)
+  return AdminAirportsPageSchema.parse(await fetchPayload(`/admin/airports?${query}`))
 }
 
 /** A radius in km, or `null` to go back to the default for the airport's type. */
