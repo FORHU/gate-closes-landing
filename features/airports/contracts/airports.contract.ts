@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-/** `GET /admin/airports`: airports by code or name, with their radius. */
+/** One airport of `GET /admin/airports`, with its radius. */
 export const AdminAirportSchema = z.object({
   id: z.string(),
   iata: z.string().nullish(),
@@ -24,7 +24,34 @@ export const AdminAirportSchema = z.object({
 })
 export type AdminAirport = z.infer<typeof AdminAirportSchema>
 
-export const AdminAirportsResponseSchema = z.array(AdminAirportSchema)
+/** `GET /admin/airports`: one page of airports plus totals. */
+export const AdminAirportsPageSchema = z.object({
+  data: z.array(AdminAirportSchema),
+  pagination: z.object({
+    page: z.number(),
+    limit: z.number(),
+    total: z.number(),
+    totalPages: z.number(),
+  }),
+})
+export type AdminAirportsPage = z.infer<typeof AdminAirportsPageSchema>
+
+/** Where an airport's centre comes from; "runway" = the dataset's point. */
+export type TerminalSourceFilter = "osm" | "admin" | "runway"
+/** The airport's map setting: auto (busy rule), always shown, never shown. */
+export type MapSettingFilter = "auto" | "show" | "hide"
+
+/** Search, filters and page of the admin airport list. */
+export type AirportsFilter = {
+  q: string
+  country?: string
+  source?: TerminalSourceFilter
+  map?: MapSettingFilter
+  page: number
+}
+
+/** Airports per page. */
+export const AIRPORTS_PAGE_SIZE = 50
 
 /**
  * "lat, lng" as copied from Google Maps (e.g. "16.375738, 120.613162"),
