@@ -8,11 +8,12 @@ import {
   setAirportTerminal,
 } from "../api/airports.client"
 import { airportsKeys } from "../api/airports.keys"
+import type { AirportsFilter } from "../contracts/airports.contract"
 
-export function useAirports(q: string) {
+export function useAirports(filter: AirportsFilter) {
   return useSafeQuery({
-    queryKey: airportsKeys.list(q),
-    queryFn: () => getAirports(q),
+    queryKey: airportsKeys.list(filter),
+    queryFn: () => getAirports(filter),
     placeholderData: (previous) => previous,
   })
 }

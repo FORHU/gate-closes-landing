@@ -4,8 +4,15 @@ import { useDeferredValue, useState } from "react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Notice, Panel, Pill } from "@/shared/components/admin-ui"
-import { RADIUS_LIMITS_KM, parseLatLng, type AdminAirport } from "../contracts/airports.contract"
+import { Notice, Panel, Pill, Select } from "@/shared/components/admin-ui"
+import {
+  RADIUS_LIMITS_KM,
+  parseLatLng,
+  type AdminAirport,
+  type AdminAirportsPage,
+  type MapSettingFilter,
+  type TerminalSourceFilter,
+} from "../contracts/airports.contract"
 import {
   useAirports,
   useSetAirportMapVisibility,
@@ -19,16 +26,42 @@ const TYPE_LABEL: Record<string, string> = {
   small_airport: "Small",
 }
 
+const SEARCH_CLASS =
+  "h-10 rounded-full border-ink/10 bg-ink/[0.03] px-4 text-sm text-ink placeholder:text-ink/30 md:text-sm focus-visible:border-theme/60 focus-visible:ring-4 focus-visible:ring-theme/10"
+
 /**
- * Airports by code or name, with the radius that counts as "at the airport"
- * (where echoes can be posted, and the circle on the map). Each one can get
- * its own radius, or go back to the default for its type, and can be always
- * shown on or hidden from the map instead of only when busy.
+ * Airports by code or name, a page at a time, filterable by country, where
+ * the centre comes from and the map setting. Each has the radius that counts
+ * as "at the airport" (where echoes can be posted, and the circle on the
+ * map); it can get its own radius, or go back to the default for its type,
+ * and can be always shown on or hidden from the map instead of only when busy.
  */
 export function AirportsTable() {
   const [search, setSearch] = useState("")
+  const [country, setCountry] = useState("")
+  const [source, setSource] = useState<TerminalSourceFilter | "">("")
+  const [map, setMap] = useState<MapSettingFilter | "">("")
+  const [page, setPage] = useState(1)
   const q = useDeferredValue(search.trim())
-  const { data: airports, isPending, error } = useAirports(q)
+  const countryCode = country.trim().toUpperCase()
+  const { data, isPending, error } = useAirports({
+    q,
+    // Only a full two-letter code filters; the API refuses anything else.
+    country: countryCode.length === 2 ? countryCode : undefined,
+    source: source || undefined,
+    map: map || undefined,
+    page,
+  })
+  const airports = data?.data
+  const pagination = data?.pagination
+
+  /** A new search or filter starts again from page 1. */
+  function changing<T>(set: (value: T) => void) {
+    return (value: T) => {
+      set(value)
+      setPage(1)
+    }
+  }
 
   return (
     <>
@@ -36,14 +69,44 @@ export function AirportsTable() {
         <Input
           type="search"
           placeholder="Code (BAG, MNL) or name"
-          className="h-10 w-full rounded-full sm:w-72 border-ink/10 bg-ink/[0.03] px-4 text-sm text-ink placeholder:text-ink/30 md:text-sm focus-visible:border-theme/60 focus-visible:ring-4 focus-visible:ring-theme/10"
+          className={`w-full sm:w-72 ${SEARCH_CLASS}`}
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => changing(setSearch)(e.target.value)}
         />
-        <span className="text-muted-foreground">
-          Airports with a radius set by an admin are listed first.
-        </span>
+        <Input
+          aria-label="Country code"
+          placeholder="Country (PH)"
+          maxLength={2}
+          className={`w-32 uppercase placeholder:normal-case ${SEARCH_CLASS}`}
+          value={country}
+          onChange={(e) => changing(setCountry)(e.target.value)}
+        />
+        <label htmlFor="airport-source">Terminal</label>
+        <Select
+          id="airport-source"
+          value={source}
+          onChange={(e) => changing(setSource)(e.target.value as TerminalSourceFilter | "")}
+        >
+          <option value="">All</option>
+          <option value="osm">OpenStreetMap</option>
+          <option value="admin">Set by admin</option>
+          <option value="runway">Runway point</option>
+        </Select>
+        <label htmlFor="airport-map">On map</label>
+        <Select
+          id="airport-map"
+          value={map}
+          onChange={(e) => changing(setMap)(e.target.value as MapSettingFilter | "")}
+        >
+          <option value="">All</option>
+          <option value="auto">Auto</option>
+          <option value="show">Show</option>
+          <option value="hide">Hide</option>
+        </Select>
       </div>
+      <p className="mb-4 text-sm text-muted-foreground">
+        Exact code matches first, then airports with a radius set by an admin.
+      </p>
 
       {error && <Notice tone="error">{error.message}</Notice>}
       {isPending && <Notice>Loading…</Notice>}
@@ -70,7 +133,52 @@ export function AirportsTable() {
           </table>
         </Panel>
       )}
+
+      {pagination && pagination.total > 0 && (
+        <Pager pagination={pagination} onPage={setPage} />
+      )}
     </>
+  )
+}
+
+/** "51–100 of 3,478" with Previous / Next. */
+function Pager({
+  pagination,
+  onPage,
+}: {
+  pagination: AdminAirportsPage["pagination"]
+  onPage: (page: number) => void
+}) {
+  const { page, limit, total, totalPages } = pagination
+  const first = (page - 1) * limit + 1
+  const last = Math.min(page * limit, total)
+  return (
+    <div className="mt-4 flex flex-wrap items-center justify-between gap-3 text-sm">
+      <span className="text-muted-foreground">
+        {first.toLocaleString()}–{last.toLocaleString()} of {total.toLocaleString()}
+      </span>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          className="h-8 px-3"
+          disabled={page <= 1}
+          onClick={() => onPage(page - 1)}
+        >
+          Previous
+        </Button>
+        <span className="text-muted-foreground">
+          Page {page} of {totalPages}
+        </span>
+        <Button
+          variant="outline"
+          className="h-8 px-3"
+          disabled={page >= totalPages}
+          onClick={() => onPage(page + 1)}
+        >
+          Next
+        </Button>
+      </div>
+    </div>
   )
 }
 

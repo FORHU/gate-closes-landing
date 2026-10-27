@@ -23,12 +23,25 @@ export async function fetcher<T = unknown>(
   path: string,
   init: Omit<RequestInit, "body"> & { body?: unknown } = {}
 ): Promise<T> {
+  const payload = await fetchPayload(path, init)
+  const unwrapped = payload && typeof payload === "object" && "data" in payload
+  return (unwrapped ? (payload as { data: unknown }).data : payload) as T
+}
+
+/**
+ * Like `fetcher`, but returns the whole payload: for pages, whose
+ * `pagination` sits next to `data`.
+ */
+export async function fetchPayload(
+  path: string,
+  init: Omit<RequestInit, "body"> & { body?: unknown } = {}
+): Promise<unknown> {
   const request: RequestInit = {
     ...init,
     body: init.body === undefined ? undefined : JSON.stringify(init.body),
   }
   const res = await send(path, request)
-  if (res.status === 204) return undefined as T
+  if (res.status === 204) return undefined
 
   const payload = await res.json().catch(() => ({}))
   if (!res.ok) {
@@ -38,6 +51,5 @@ export async function fetcher<T = unknown>(
       res.status
     )
   }
-  const unwrapped = payload && typeof payload === "object" && "data" in payload
-  return (unwrapped ? payload.data : payload) as T
+  return payload
 }
